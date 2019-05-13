@@ -29,6 +29,7 @@ module.exports = {
     "space-before-function-paren": 0,
     'semi': 0,
     'no-unused-vars': 0,
-    'quotes': 0
+    'quotes': 0,
+    'no-trailing-spaces': 0
   }
 }
