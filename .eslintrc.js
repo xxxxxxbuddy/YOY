@@ -30,6 +30,7 @@ module.exports = {
     'semi': 0,
     'no-unused-vars': 0,
     'quotes': 0,
-    'no-trailing-spaces': 0
+    'no-trailing-spaces': 0,
+    'keyword-spacing': 0
   }
 }
