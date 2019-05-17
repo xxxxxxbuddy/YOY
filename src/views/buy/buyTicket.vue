@@ -1,24 +1,20 @@
 <template>
-  <div>
-    <div class="header">
-      <div class="bg">
-        <div class="back">
-          <img src="../assets/images/back.svg" alt>
+  <div style="height: 100%">
+      <div class="header">
+        <Header></Header>
+        <div class="card">
+          <div class="title">游无忧游乐园</div>
+          <div class="tips">入园须知</div>
+          <div class="time">
+            <img src="../../assets/images/time.svg" alt>
+            开放时间 9:30-21:30
+          </div>
+          <div class="address">
+            <img src="../../assets/images/address.svg" alt>
+            湖北·武汉市·关山大道
+          </div>
         </div>
       </div>
-      <div class="card">
-        <div class="title">游无忧游乐园</div>
-        <div class="tips">入园须知</div>
-        <div class="time">
-          <img src="../assets/images/time.svg" alt>
-          开放时间 9:30-21:30
-        </div>
-        <div class="address">
-          <img src="../assets/images/address.svg" alt>
-          湖北·武汉市·关山大道
-        </div>
-      </div>
-    </div>
 
     <div class="choose">
       <div class="choose-date">
@@ -34,7 +30,7 @@
 
     <div class="tickets">
       <div class="ticket-type" v-for="item in ticketsType" :key="item.TicketID">
-        <img class="ticket-image" src="../assets/images/adult.png" alt> 
+        <img class="ticket-image" src="../../assets/images/adult.png" alt> 
         <!-- :src="require('../assets/images/' + item.TicketPic)" -->
         <span class="ticket-name">{{item.TicketName}}</span>
         <span class="ticket-description">{{item.TicketInfo}}</span>
@@ -96,8 +92,33 @@ export default {
   },
   methods: {
     numChange() {},
+    /**
+     * @description 跳转到支付确认页面
+     */
     order() {
-
+      // 先验证信息是否选择完全
+      if(this.orderDate === "") {
+        MessageBox({
+          type: 'info',
+          message: '请选择日期'
+        });
+      }else if(this.ticketNum.T00001 === 0 && this.ticketNum.T00002 === 0) {
+        MessageBox({
+          type: 'info',
+          message: '请选择购票数量'
+        });
+      }else{
+        let orderType = this.ticketsType.filter(item => this.ticketNum[item.TicketID] > 0)
+        this.$router.push({
+          name: 'confirm',
+          params: {
+            orderDate: this.orderDate,
+            ticketNum: this.ticketNum,
+            ticketsType: orderType,
+            totalPrice: this.totalPrice
+          }
+        });
+      }
     }
   },
   computed: {
@@ -135,25 +156,6 @@ export default {
   height: 39vh;
   width: 100%;
   position: relative;
-}
-.bg {
-  background: url("../assets/images/buyTicketBG.jpg");
-  height: 31vh;
-  width: 100%;
-  z-index: -1;
-  background-size: cover;
-  filter: brightness(0.6);
-}
-.back {
-  position: absolute;
-  left: 5px;
-  height: 5px;
-  z-index: 2;
-  padding: 4px;
-}
-.back img {
-  width: 2.5rem;
-  height: 2.5rem;
 }
 .card {
   height: 28vw;
@@ -220,7 +222,7 @@ export default {
   margin: 20px 0;
 }
 .ticket-type {
-  height: 15vh;
+  height: 13vh;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
   margin: 2vw 0;
 }

@@ -15,7 +15,17 @@ const router = new Router({
     {
       path: '/buyTicket',
       name: 'buyTicket',
-      component: resolve => require(['../views/buyTicket.vue'], resolve)
+      component: resolve => require(['../views/buy/buyTicket.vue'], resolve)
+    },
+    {
+      path: '/confirm',
+      name: 'confirm',
+      component: resolve => require(['../views/buy/confirm.vue'], resolve)
+    },
+    {
+      path: '/payment',
+      name: 'payment',
+      component: resolve => require(['../views/buy/payment.vue'], resolve)
     }
   ]
 })
