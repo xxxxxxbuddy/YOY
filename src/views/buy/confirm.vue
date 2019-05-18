@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     baseDate() {
-      let day = this.orderDate.getDay();
+      let day = this.$route.params.orderDate.getDay();
       switch(day) {
         case 1: day = "星期一"; break;
         case 2: day = "星期二"; break;
@@ -103,7 +103,7 @@ export default {
         case 7: day = "星期日"; break;
       }
       return {
-        date: this.orderDate.toLocaleDateString().replace(/\//g, '-'),
+        date: this.$route.params.orderDate.toLocaleDateString().replace(/\//g, '-'),
         day: day
       };
     }

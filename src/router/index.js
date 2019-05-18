@@ -26,6 +26,11 @@ const router = new Router({
       path: '/payment',
       name: 'payment',
       component: resolve => require(['../views/buy/payment.vue'], resolve)
+    },
+    {
+      path: '/visitorLogin',
+      name: 'visitorLogin',
+      component: resolve => require(['../views/visit/login.vue'], resolve)
     }
   ]
 })

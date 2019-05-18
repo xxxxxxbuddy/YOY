@@ -1,7 +1,11 @@
 <template>
   <div style="height: 100%">
       <div class="header">
-        <Header></Header>
+        <div class="bg">
+          <div class="back" @click="goBack">
+            <i class="el-icon-arrow-left"></i>
+          </div>
+        </div>
         <div class="card">
           <div class="title">游无忧游乐园</div>
           <div class="tips">入园须知</div>
@@ -119,6 +123,9 @@ export default {
           }
         });
       }
+    },
+    goBack() {
+      this.$router.go(-1);
     }
   },
   computed: {
@@ -156,6 +163,22 @@ export default {
   height: 39vh;
   width: 100%;
   position: relative;
+}
+.bg {
+  background: url("../../assets/images/buyTicketBG.jpg");
+  height: 31vh;
+  width: 100%;
+  z-index: -1;
+  background-size: cover;
+  filter: brightness(0.6);
+}
+.back {
+  position: absolute;
+  font-size: 1.5rem;
+  z-index: 2;
+  line-height: 3rem;
+  padding: 0.25rem;
+  left: 2vw;
 }
 .card {
   height: 28vw;
