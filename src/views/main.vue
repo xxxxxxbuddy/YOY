@@ -115,7 +115,7 @@ export default {
     * @description 买新票 
     */
     newTicket() {
-      this.$router.push('buyTicket');
+      this.$router.push('BuyTicket');
     },
 
     /**

@@ -19,7 +19,7 @@
 
         <div class="info">
             <h2>购票人信息</h2>
-            <el-form :model="infoForm" :rules="rules" ref="infoForm" label-width="28vw" class="infoForm" label-position="left">
+            <el-form :model="infoForm" :rules="rules" ref="infoForm" label-width="28vw" label-position="left">
                 <el-form-item label="姓名" prop="Name">
                     <el-input v-model="infoForm.Name"></el-input>
                 </el-form-item>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="tip">
-          <el-checkbox label="已阅读并同意《购票须知》和《入园须知》" v-model="tip"></el-checkbox>
+          <el-checkbox label="已阅读并勾选同意《购票须知》和《入园须知》" v-model="tip"></el-checkbox>
         </div>
         <div class="handle-bar">
             <div class="total-price">
@@ -108,7 +108,7 @@ export default {
       };
     }
   },
-  mounted() {
+  created() {
     console.log(this.$route.params);
     try {
       this.ticketsType = this.$route.params.ticketsType;

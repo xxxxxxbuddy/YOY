@@ -13,9 +13,9 @@ const router = new Router({
       component: Main
     },
     {
-      path: '/buyTicket',
-      name: 'buyTicket',
-      component: resolve => require(['../views/buy/buyTicket.vue'], resolve)
+      path: '/BuyTicket',
+      name: 'BuyTicket',
+      component: resolve => require(['../views/buy/BuyTicket.vue'], resolve)
     },
     {
       path: '/confirm',
@@ -28,9 +28,14 @@ const router = new Router({
       component: resolve => require(['../views/buy/payment.vue'], resolve)
     },
     {
-      path: '/visitorLogin',
-      name: 'visitorLogin',
+      path: '/VisitorLogin',
+      name: 'VisitorLogin',
       component: resolve => require(['../views/visit/login.vue'], resolve)
+    },
+    {
+      path: '/Visit',
+      name: 'Visit',
+      component: resolve => require(['../views/visit/Visit.vue'], resolve)
     }
   ]
 })
