@@ -129,7 +129,7 @@ export default {
     * @description 游园
     */
     visit() {
-      this.$router.push('visitorLogin');
+      this.$router.push('Visit'); // visitorLogin
     },
 
     /**

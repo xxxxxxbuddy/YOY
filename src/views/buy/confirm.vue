@@ -1,5 +1,5 @@
 <template>
-    <div class="container" style="background-color: rgba(153, 153, 153, 0.19);height: 100vh">
+    <div class="container" style="background-color: rgba(153, 153, 153, 0.19);height: 100%;min-height: 100vh">
         <Header title="提交订单"></Header>
 
         <div class="tickets">

@@ -80,12 +80,14 @@ export default {
         if(valid) {
           if(this.tip) {
             this.loginning = true;
-            this.$axios.post('/Visit.svc/PlayLogin', {
-              VisitorID: this.loginForm.Account,
-              Password: this.loginForm.Password,
-              Name: this.loginForm.Name,
-              Age: this.loginForm.Age,
-              UID: this.loginForm.UID
+            this.$axios.post('/Amusement.svc.svc/Login', {
+              visitor: {
+                VisitorID: this.loginForm.Account,
+                Password: this.loginForm.Password,
+                Name: this.loginForm.Name,
+                Age: this.loginForm.Age,
+                UID: this.loginForm.UID
+              }
             }).then(res => {
               if(res.data.code === 1) {
                 this.$router.push({

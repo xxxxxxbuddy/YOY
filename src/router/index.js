@@ -36,6 +36,16 @@ const router = new Router({
       path: '/Visit',
       name: 'Visit',
       component: resolve => require(['../views/visit/Visit.vue'], resolve)
+    },
+    {
+      path: '/Route',
+      name: 'Route',
+      component: resolve => require(['../views/visit/Route.vue'], resolve)
+    },
+    {
+      path: '/Team',
+      name: 'Team',
+      component: resolve => require(['../views/visit/Team.vue'], resolve)
     }
   ]
 })

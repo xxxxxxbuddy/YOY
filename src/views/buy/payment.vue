@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: rgba(153, 153, 153, 0.19);height: 100vh">
+  <div style="background-color: rgba(153, 153, 153, 0.19);height: 100%;min-height: 100vh">
     <div class="mask" v-show="payed"></div>
     <Header title="订单支付"></Header>
     <div v-loading="paying" style="height: 100%">

@@ -14,6 +14,10 @@ module.exports = {
       '/TicketPurchase.svc': {
         target: 'http://39.98.221.147:8009',
         changeOrigin: true
+      },
+      '/Amusement.svc': {
+        target: 'http://39.98.221.147:8009',
+        changeOrigin: true
       }
     },
 

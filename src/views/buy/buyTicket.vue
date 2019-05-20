@@ -34,8 +34,7 @@
 
     <div class="tickets">
       <div class="ticket-type" v-for="item in ticketsType" :key="item.TicketID">
-        <img class="ticket-image" src="../../assets/images/adult.png" alt> 
-        <!-- :src="require('../assets/images/' + item.TicketPic)" -->
+        <img class="ticket-image" :src="item.TicketPic" alt> 
         <span class="ticket-name">{{item.TicketName}}</span>
         <span class="ticket-description">{{item.TicketInfo}}</span>
         <span class="ticket-price">￥{{item.TicketPrice}}</span>
@@ -78,14 +77,14 @@ export default {
           TicketName: "成人票",
           TicketPrice: 200,
           TicketInfo: "适用于成人或身高>1.5米的儿童",
-          TicketPic: "adult.png"
+          TicketPic: require("@/assets/images/adult.png")
         },
         {
           TicketID: 1,
           TicketName: "儿童票",
           TicketPrice: 150,
           TicketInfo: "适用于身高<1.5米的儿童",
-          TicketPic: "child.png"
+          TicketPic: require("@/assets/images/child.png")
         }
       ],
       ticketNum: {

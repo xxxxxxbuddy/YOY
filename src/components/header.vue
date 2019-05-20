@@ -2,7 +2,7 @@
     <div class="header">
         <i class="el-icon-arrow-left back" @click="goBack"></i>
         <span class="last-page" @click="goBack">{{lastPage}}</span>
-        <span class="title">{{title}}</span>
+        <span class="title" :style="'color: ' + color">{{title}}</span>
     </div>
 </template>
 
@@ -16,6 +16,10 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    color: {
+      type: String,
+      default: 'rgba(80, 80, 80, 1)'
     }
   },
   methods: {
@@ -53,7 +57,6 @@ export default {
   line-height: 3rem;
   margin-left: 50%;
   transform: translateX(-50%);
-  color: rgba(80, 80, 80, 1);
   font-weight: bold;
 }
 </style>
