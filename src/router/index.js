@@ -18,6 +18,16 @@ const router = new Router({
       component: resolve => require(['../views/buy/BuyTicket.vue'], resolve)
     },
     {
+      path: '/AvailTickets',
+      name: 'AvailTickets',
+      component: resolve => require(['../views/buy/AvailTickets.vue'], resolve)
+    },
+    {
+      path: '/MyTicket',
+      name: 'MyTicket',
+      component: resolve => require(['../views/buy/MyTicket.vue'], resolve)
+    },
+    {
       path: '/confirm',
       name: 'confirm',
       component: resolve => require(['../views/buy/confirm.vue'], resolve)
@@ -51,6 +61,11 @@ const router = new Router({
       path: '/RouteDetail',
       name: 'RouteDetail',
       component: resolve => require(['../views/visit/RouteDetail.vue'], resolve)
+    },
+    {
+      path: '/Facility',
+      name: 'Facility',
+      component: resolve => require(['../views/visit/Facility.vue'], resolve)
     },
     {
       path: '/DeviceNotSupport',

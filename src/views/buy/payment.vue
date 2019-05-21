@@ -85,7 +85,11 @@ export default {
     };
   },
   created() {
-    this.totalPrice = this.$route.params.totalPrice.toFixed(2);
+    try{
+      this.totalPrice = this.$route.params.totalPrice.toFixed(2);
+    }catch(e) {
+      this.$router.push('/');
+    }
   },
   mounted() {
     // 倒计时
@@ -101,16 +105,18 @@ export default {
           };
         } else {
           // 已超时
-          MessageBox({
-            type: "error",
-            message: "订单已超时",
-            callback: () => {
-              this.$router.go(-2);
-              clearInterval(intervalID);
-            }
-          });
+          // MessageBox({
+          //   type: "error",
+          //   message: "订单已超时",
+          //   callback: () => {
+          //     this.$router.go(-2);
+          //     clearInterval(intervalID);
+          //   }
+          // });
         }
       }, 1000);
+    }else{
+      this.$router.push('/');
     }
   },
   methods: {
@@ -140,6 +146,7 @@ export default {
         console.log(res);
         this.paying = false;
         if(res.data.code === 1) {
+          window.sessionStorage.setItem('PhoneNumber', this.$route.params.userInfo.PhoneNumber);
           this.orderId = res.data.result;
           this.payed = true;
         } else {
@@ -160,7 +167,7 @@ export default {
      *  @description 跳转到“已支付”页
      */
     navigateToPayed() {
-
+      this.$router.push('AvailTickets');
     }
   }
 };
@@ -239,6 +246,7 @@ export default {
 .el-radio {
   float: right;
   margin-right: 2vw;
+  line-height: 8vw;
 }
 .el-radio__inner {
   height: 6vw;

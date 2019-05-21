@@ -11,9 +11,9 @@
                             <span class="name">中世纪城堡</span><br>
                             <span>开放时间：9:00-18:30</span><br>
                             <span>适合人群：青少年、成人</span><br>
-                            <i class="el-icon-star-on"></i>
+                            <i class="el-icon-star-on" style="color: rgba(255, 141, 26, 1)"></i>
                             <span>恐高、有心脏病等不适合加入</span><br>
-                            <i class="el-icon-location"></i>
+                            <i class="el-icon-location" style="color: rgba(42, 130, 228, 0.84)"></i>
                             <span>地址</span>
                         </div>
                     </el-card>
@@ -25,9 +25,9 @@
                             <span class="name">海螺湾</span><br>
                             <span>开放时间：9:00-18:30</span><br>
                             <span>适合人群：青少年、成人</span><br>
-                            <i class="el-icon-star-on"></i>
+                            <i class="el-icon-star-on" style="color: rgba(255, 141, 26, 1)"></i>
                             <span>恐高、有心脏病等不适合加入</span><br>
-                            <i class="el-icon-location"></i>
+                            <i class="el-icon-location" style="color: rgba(42, 130, 228, 0.84)"></i>
                             <span>地址</span>
                         </div>
                     </el-card>
@@ -39,9 +39,9 @@
                             <span class="name">生命之光</span><br>
                             <span>开放时间：9:00-18:30</span><br>
                             <span>适合人群：青少年、成人</span><br>
-                            <i class="el-icon-star-on"></i>
+                        <i class="el-icon-star-on" style="color: rgba(255, 141, 26, 1)"></i>
                             <span>恐高、有心脏病等不适合加入</span><br>
-                            <i class="el-icon-location"></i>
+                            <i class="el-icon-location" style="color: rgba(42, 130, 228, 0.84)"></i>
                             <span>地址</span>
                         </div>
                     </el-card>
@@ -77,11 +77,6 @@ export default {
     height: 100%;
     float: left;
     margin-right: 2vw;
-}
-.image::after{
-    content: '';
-    display: block;
-    clear: both;
 }
 .card{
     line-height: 1.5;

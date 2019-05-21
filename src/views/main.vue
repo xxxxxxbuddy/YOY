@@ -122,14 +122,14 @@ export default {
     * @description 我的票
     */
     myTicket() {
-      this.$router.push({name: 'myTicket'});
+      this.$router.push({name: 'MyTicket'});
     },
 
     /**
     * @description 游园
     */
     visit() {
-      this.$router.push('Visit'); // visitorLogin
+      this.$router.push('visitorLogin'); // 
     },
 
     /**
@@ -162,7 +162,9 @@ body{
   text-align: center;
   color: #2c3e50;
   width: 100%;
-  margin-top: 10px;
+  background-color: #FEF9E5;
+  height: 100%;
+  min-height: 100vh;
 }
 .swiper{
   width: 98%;

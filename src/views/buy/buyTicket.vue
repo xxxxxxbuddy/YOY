@@ -149,6 +149,9 @@ export default {
         });
       } else {
         if (res.data.result.length > 0) {
+          res.data.result.forEach(item => {
+            item.TicketPic = require('@/assets/images/' + item.TicketPic);
+          })
           this.ticketsType = res.data.result;
         }
       }

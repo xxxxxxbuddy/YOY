@@ -87,11 +87,20 @@ export default {
       ticketsType: [],
       ticketNum: {},
       orderDate: '',
-      tip: false
+      tip: false,
+      baseDate: {
+        date: '',
+        day: ''
+      }
     }
   },
-  computed: {
-    baseDate() {
+  created() {
+    console.log(this.$route.params);
+    try {
+      this.ticketsType = this.$route.params.ticketsType;
+      this.ticketNum = this.$route.params.ticketNum;
+      this.totalPrice = this.$route.params.totalPrice;
+      this.orderDate = this.$route.params.orderDate;
       let day = this.$route.params.orderDate.getDay();
       switch(day) {
         case 1: day = "星期一"; break;
@@ -102,21 +111,10 @@ export default {
         case 6: day = "星期六"; break;
         case 7: day = "星期日"; break;
       }
-      return {
-        date: this.$route.params.orderDate.toLocaleDateString().replace(/\//g, '-'),
-        day: day
-      };
-    }
-  },
-  created() {
-    console.log(this.$route.params);
-    try {
-      this.ticketsType = this.$route.params.ticketsType;
-      this.ticketNum = this.$route.params.ticketNum;
-      this.totalPrice = this.$route.params.totalPrice;
-      this.orderDate = this.$route.params.orderDate;
+      this.baseDate.date = this.$route.params.orderDate.toLocaleDateString().replace(/\//g, '-');
+      this.baseDate.day = day;
     }catch(e) {
-      this.$router.go(-1);
+      this.$router.push('BuyTicket');
     }
   },
   methods: {

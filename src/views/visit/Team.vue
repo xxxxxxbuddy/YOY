@@ -10,7 +10,7 @@
           </div>
           <div class="search-results">
             <el-card v-for="item in searchResults" :key="item.VisitorID" style="position: relative">
-              <span style="">{{item.VisitorName}}</span>
+              <span style="">{{item.Name}}</span>
               <br>
               <span>ID: {{item.VisitorID}}</span>
               <el-button type="success" round @click="inviteVisitor" :data-id="item.VisitorID" class="invite-button">+邀请组队</el-button>
@@ -92,26 +92,25 @@ export default {
       ],
       searchContent: '',
       searchResults: [
-        {
-          VisitorID: 0,
-          VisitorName: 'test'
-        }
+        // {
+        //   VisitorID: 0,
+        //   VisitorName: 'test'
+        // }
       ]
     }
   },
   created() {
-    // this.$axios.post('/Amusement.svc/getApplyNotice', {
-    //   VisitorID: ''
-    // }).then(res => {
-    //   if(res.data.code === 1 && !!res.data.result.length) {
-    //     this.inviteList = res.data.result;
-    //   }
-    // }).catch(e => {
-    //   MessageBox({
-    //     type: 'error',
-    //     message: '网络故障，请求失败'
-    //   })
-    // })
+    let VisitorID = window.sessionStorage.getItem('VisitorID');
+    this.$axios.get('/Amusement.svc/Group/GetApplication/' + VisitorID).then(res => {
+      if(res.data.code === 1 && !!res.data.result.length) {
+        this.inviteList = res.data.result;
+      }
+    }).catch(e => {
+      MessageBox({
+        type: 'error',
+        message: '网络故障，请求失败'
+      })
+    })
     // this.$axios.post('/Amusement.svc/GetTeamrInfo', {
     //   VisitorID: ''
     // }).then(res => {
@@ -149,9 +148,7 @@ export default {
      * @description 搜索用户
      */
     search() {
-      this.$axios.post('/Amusement.svc/SearchVisitor', {
-        SearchKey: this.searchContent
-      }).then(res => {
+      this.$axios.get('/Amusement.svc/Group/SearchVisitor?SearchKey=' + this.searchContent).then(res => {
         if(res.data.code === 1) {
           this.searchResults = res.data.result
         }else {

@@ -9,6 +9,7 @@ import './assets/css/main.css'
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.config.productionTip = false
 Vue.use(ElementUI, { size: 'small' });
+axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
