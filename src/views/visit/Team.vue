@@ -1,6 +1,24 @@
 <template>
     <div>
         <Header title="队伍管理"></Header>
+        <i class="el-icon-plus add" @click="invite"></i>
+
+        <div class="invite" :style="'transform: ' + showInvite">
+          <div class="search">
+            <el-input placeholder="输入游客ID/名字" v-model="searchContent" style="width: 70vw" prefix-icon="el-icon-search"></el-input>
+            <el-button type="primary" round style="width: 20vw;margin-left: 2vw" @click="search">搜索</el-button>
+          </div>
+          <div class="search-results">
+            <el-card v-for="item in searchResults" :key="item.VisitorID" style="position: relative">
+              <span style="">{{item.VisitorName}}</span>
+              <br>
+              <span>ID: {{item.VisitorID}}</span>
+              <el-button type="success" round @click="inviteVisitor" :data-id="item.VisitorID" class="invite-button">+邀请组队</el-button>
+            </el-card>
+          </div>
+        </div>
+
+        <div class="mask" @click="quitInvite" v-if="showMask"></div>
 
         <el-tabs v-model="activeTab" stretch>
             <el-tab-pane label="组队消息" name="message">
@@ -16,8 +34,22 @@
                 </transition-group>
             </el-tab-pane>
 
-            <el-tab-pane label="队员信息" name="info">
-                
+            <el-tab-pane label="队员信息" name="info" class="member-info" >
+                <el-card class="member-card" style="position: relative">
+                  <el-button type="danger" style="position: absolute;right: 2vw;top: 5vh;">退出</el-button>
+                  <span>我</span><br>
+                  <span>ID:</span><br>
+                  <span>游客状态：</span><br>
+                  <img src="@/assets/images/address.svg" style="width: 4vw">
+                  <span style="color: #409eff">位置</span>
+                </el-card>
+                <el-card v-for="item in membersList" class="member-card" :key="item.VisitorID">
+                  <span>{{item.VisitorName}}</span><br>
+                  <span>ID:{{item.VisitorID}}</span><br>
+                  <span>游客状态：{{item.VisitorState}}</span><br>
+                  <img src="@/assets/images/address.svg" style="width: 4vw">
+                  <span style="color: #409eff">位置</span>
+                </el-card>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -34,6 +66,8 @@ export default {
   data() {
     return {
       activeTab: 'message',
+      showInvite: 'translateY(-100%)',
+      showMask: false,
       inviteList: [
         {
           InvitorID: 12345,
@@ -43,11 +77,30 @@ export default {
           InvitorID: 1345,
           InvitorName: '张雷'
         }
+      ],
+      membersList: [
+        {
+          VisitorID: 1,
+          VisitorName: '张雷',
+          VisitorState: '空闲'
+        },
+        {
+          VisitorID: 2,
+          VisitorName: '张雷',
+          VisitorState: '空闲'
+        }
+      ],
+      searchContent: '',
+      searchResults: [
+        {
+          VisitorID: 0,
+          VisitorName: 'test'
+        }
       ]
     }
   },
   created() {
-    // this.$axios.post('getApplyNotice', {
+    // this.$axios.post('/Amusement.svc/getApplyNotice', {
     //   VisitorID: ''
     // }).then(res => {
     //   if(res.data.code === 1 && !!res.data.result.length) {
@@ -59,8 +112,79 @@ export default {
     //     message: '网络故障，请求失败'
     //   })
     // })
+    // this.$axios.post('/Amusement.svc/GetTeamrInfo', {
+    //   VisitorID: ''
+    // }).then(res => {
+    //   if(res.data.code === 1) {
+    //     this.membersList = res.data.result;
+    //   }else {
+    //     MessageBox({
+    //       type: 'error',
+    //       message: '获取队伍信息失败\n' + res.ErrorMsg
+    //     })
+    //   }
+    // }).catch(e => {
+    //   MessageBox({
+    //     type: 'error',
+    //     message: '获取队伍信息失败\n' + e.message
+    //   })
+    // });
   },
   methods: {
+    /**
+     * @description 搜索游客并邀请组队
+     */
+    invite() {
+      this.showInvite = 'translateY(0)'
+      this.showMask = true;
+    },
+    /**
+     * @description 退出邀请
+     */
+    quitInvite() {
+      this.showInvite = 'translateY(-100%)';
+      this.showMask = false;
+    },
+    /**
+     * @description 搜索用户
+     */
+    search() {
+      this.$axios.post('/Amusement.svc/SearchVisitor', {
+        SearchKey: this.searchContent
+      }).then(res => {
+        if(res.data.code === 1) {
+          this.searchResults = res.data.result
+        }else {
+          MessageBox({
+            type: 'error',
+            message: '搜索失败！<br>' + res.ErrorMsg
+          });
+        }
+      }).catch(e => {
+        MessageBox({
+          type: 'error',
+          message: '搜索失败！<br>' + e.message
+        });
+      })
+    },
+    /**
+     * @description 邀请加入
+     */
+    inviteVisitor(e) {
+      console.log(e.target.parentNode.dataset.id);
+      e.target.innerText = "已邀请";
+      e.target.parentNode.style.background = '#909399';
+      e.target.parentNode.setAttribute('disabled', 'disabled');
+      // this.$axios.post('/Amusement.svc/Invite', {
+      //   InviterID: '',
+      //   InviteeID: e.target.parentNode.dataset.id
+      // }).then(res => {
+      //   if(res.data.code === 1) {
+      //     e.target.innerText = "已邀请";
+      //     e.target.parentNode.style.background = '#909399';
+      //   }
+      // })
+    },
     /**
      * @description 接受邀请
      */
@@ -70,10 +194,13 @@ export default {
         InvitorID: e.target.dataset.id
       }).then(res => {
         if(res.data.code === 1) {
-          MessageBox({
-            type: 'success',
-            message: '加入成功'
-          });
+          // MessageBox({
+          //   type: 'success',
+          //   message: '加入成功'
+          // });
+          e.target.innerText = "已接受";
+          e.target.parentNode.style.background = '#909399';
+          e.target.parentNode.setAttribute('disabled', 'disabled');
           this.activeTab = 'info';
         }else {
           MessageBox({
@@ -102,6 +229,15 @@ export default {
 </script>
 
 <style scoped>
+.add{
+  position: absolute;
+  top: 0;
+  right: 5px;
+  z-index: 2;
+  line-height: 3rem;
+  font-size: 1.5rem;
+  padding: 0.25rem 0.5rem;
+}
 .no-item{
   text-align: center;
   display: block;
@@ -123,5 +259,44 @@ export default {
 }
 .invite-card-enter, .invite-card-leave-to /* .invite-card-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+.invite{
+  position: absolute;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  width: 100%;
+  z-index: 3;
+  top: 0;
+  background-color: #fff;
+  padding: 2vw;
+}
+.mask{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.search-results{
+  margin: 2vh 2vw;
+  width: 90vw;
+  line-height: 2;
+}
+.invite-button{
+  position: absolute;
+  right: 2vw;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.member-info{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.member-card{
+  width: 40vw;
+  line-height: 2;
+  margin: 1vh 4vw;
+  border-radius: 2vw;
 }
 </style>

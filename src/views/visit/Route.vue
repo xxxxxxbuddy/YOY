@@ -3,7 +3,7 @@
         <Header title="线路推荐" color="rgba(88, 176, 81, 1)"></Header>
 
         <div class="route-types">
-            <div class="type" v-for="item in types" :key="item.typeID" :style="'background-image: url(' + item.typeImg + ')'">
+            <div class="type" @click="detail" v-for="item in types" :key="item.typeID" :style="'background-image: url(' + item.typeImg + ')'">
                 <span class="name">{{item.typeName}}</span>
             </div>
         </div>
@@ -36,6 +36,11 @@ export default {
           typeImg: require('@/assets/images/sweet.jpg')
         }
       ]
+    }
+  },
+  methods: {
+    detail() {
+      this.$router.push('RouteDetail')
     }
   }
 }

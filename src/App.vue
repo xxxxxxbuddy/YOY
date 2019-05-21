@@ -15,9 +15,9 @@ export default {
   },
   created() {
     const isMobile = 'ontouchstart' in document;
-    this.$router.push({
-      name: 'main'
-    });
+    if(!isMobile) {
+      this.$router.push('DeviceNotSupport');
+    }
   },
   methods: {
     
