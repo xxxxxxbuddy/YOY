@@ -1,9 +1,9 @@
 <template>
     <div id="container">
-        <swiper :options="swiperOption" ref="mySwiper">
+        <!-- <swiper :options="swiperOption" ref="mySwiper"> -->
         <!-- @someSwiperEvent="callback" -->
         <!-- slides -->
-        <swiper-slide>
+        <!-- <swiper-slide>
             <img src="../assets/images/swipeImg1.jpg" class="swiper" >
         </swiper-slide>
         <swiper-slide>
@@ -17,14 +17,28 @@
         </swiper-slide>
         <swiper-slide>
             <img src="../assets/images/swipeImg5.jpg" class="swiper" >
-        </swiper-slide>
+        </swiper-slide> -->
         <!-- Optional controls -->
-        <div class="swiper-pagination" slot="pagination"></div>
+        <!-- <div class="swiper-pagination" slot="pagination"></div> -->
         <!-- <div class="swiper-button-prev" slot="button-prev"></div>
         <div class="swiper-button-next" slot="button-next"></div>
         <div class="swiper-scrollbar" slot="scrollbar"></div> -->
         <!-- <div class="swiper-pagination" style="bottom: 30px"></div> -->
-        </swiper>
+        <!-- </swiper> -->
+        <el-carousel class="swiper-con" :style="'height: ' + swiperHeight">
+          <el-carousel-item>
+            <img src="../assets/images/swipeImg1.jpg" class="swiper" >
+          </el-carousel-item>
+          <el-carousel-item>
+            <img src="../assets/images/swipeImg2.jpg" class="swiper" >
+          </el-carousel-item>
+          <el-carousel-item>
+            <img src="../assets/images/swipeImg3.jpg" class="swiper" >
+          </el-carousel-item>
+          <el-carousel-item>
+            <img src="../assets/images/swipeImg4.jpg" class="swiper" >
+          </el-carousel-item>
+        </el-carousel>
     
         <div id="functions">
             <!-- 购票子系统 -->
@@ -58,50 +72,50 @@
 </template>
 
 <script>
-import { swiper, swiperSlide } from 'vue-awesome-swiper';
-import 'swiper/dist/css/swiper.css';
+// import { swiper, swiperSlide } from 'vue-awesome-swiper';
+// import 'swiper/dist/css/swiper.css';
 export default {
   name: 'Main',
-  components: {
-    swiper,
-    swiperSlide
-  },
+  // components: {
+  //   swiper,
+  //   swiperSlide
+  // },
   data() {
     return {
-      swiperOption: {
-        autoplay: {
-          delay: 1000,
-          disableOnInteraction: true
-        },
-        speed: 2000,
-        loop: true,
-        height: '100%',
-        pagination: {
-          el: '.swiper-pagination'
-        },
-        scroolbar: false
-        // some swiper options/callbacks
-        // 所有的参数同 swiper 官方 api 参数
-        // ...
-      },
+      // swiperOption: {
+      //   autoplay: {
+      //     delay: 1000,
+      //     disableOnInteraction: true
+      //   },
+      //   speed: 2000,
+      //   loop: true,
+      //   height: '100%',
+      //   pagination: {
+      //     el: '.swiper-pagination'
+      //   },
+      //   scroolbar: false
+      //   // some swiper options/callbacks
+      //   // 所有的参数同 swiper 官方 api 参数
+      //   // ...
+      // },
       // swiperWidth: 345, // 轮播图默认宽度
       swiperHeight: 260, // 轮播图默认高度
       funcHeight: 160, // 功能模块默认高度
       showTicket: false // 显示购票子功能
     }
   },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.swiper;
-    }
-  },
+  // computed: {
+  //   swiper() {
+  //     return this.$refs.mySwiper.swiper;
+  //   }
+  // },
   mounted() {
-    this.swiperOption.height = document.getElementById('container').offsetWidth * 0.75;
+    this.swipeHeight = document.getElementById('container').offsetWidth * 0.75;
     this.funcHeight = document.getElementsByClassName('buy')[0].offsetWidth;
     // current swiper instance
     // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
-    console.log("this is current swiper instance object", this.swiper);
-    this.swiper.slideTo(3, 1000, false);
+    // console.log("this is current swiper instance object", this.swiper);
+    // this.swiper.slideTo(3, 1000, false);
   },
   methods: {
     buyTicket() {
@@ -165,6 +179,10 @@ body{
   background-color: #FEF9E5;
   height: 100%;
   min-height: 100vh;
+}
+.swiper-con{
+  height: 100%;
+  margin: 1vh 0;
 }
 .swiper{
   width: 98%;

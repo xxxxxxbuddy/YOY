@@ -77,7 +77,8 @@ export default {
     }
   },
   created() {
-    this.getLatestNotice('');
+    // this.getLatestNotice('');
+    this.getLatestNotice(formatDate(new Date("2019-05-20"), 'yyyy-MM-dd hh:mm:ss'));
     INTERVAL = setInterval(() => { // eslint-disable-next-line
       this.getLatestNotice(formatDate(freshTime, 'yyyy-MM-dd hh:mm:ss'));
     }, 10000);

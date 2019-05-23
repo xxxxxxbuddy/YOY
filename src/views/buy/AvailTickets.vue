@@ -25,8 +25,8 @@
           <div class="info">
             <el-button type="info" disabled round>已消费</el-button>
             <span>游客ID：{{item.VisitorID}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <span>{{item.TicketName}}</span><br>
-            <span>游园密码：{{item.Password}}</span>
+              <span>{{item.TicketName}}</span><br>
+              <span>游园密码：{{item.Password}}</span>
           </div>
         </el-card>
       </el-tab-pane>
