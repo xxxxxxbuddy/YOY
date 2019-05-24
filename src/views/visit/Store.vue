@@ -22,6 +22,7 @@
 
 <script>
 import Header from '@/components/header'
+import {MessageBox} from 'element-ui'
 
 export default {
   components: {
@@ -59,10 +60,27 @@ export default {
     * @description   结算
     */
     pay() {
+      let pieces = 0;
+      let FoodList = this.foodList.filter(item => {
+        if(this.foodNum[item.FoodID] > 0) {
+          item.FoodNum = this.foodNum[item.FoodID];
+          pieces += item.FoodNum;
+          return item;
+        }        
+      })
+      if(pieces === 0) {
+        MessageBox({
+          type: 'info',
+          message: '您还未选择商品'
+        });
+        return;
+      }
       this.$router.push({
         name: 'Order',
         params: {
-          totalPrice: this.totalPrice
+          totalPrice: this.totalPrice,
+          FoodList: FoodList,
+          pieces: pieces
         }
       })
     }

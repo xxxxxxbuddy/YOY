@@ -126,42 +126,50 @@ export default {
     pay() {
       this.paying = true;
       let orders = [];
-      this.$route.params.ticketsType.forEach(item => {
-        orders.push({
-          CommodityID: item.TicketID,
-          CommodityNum: this.$route.params.ticketNum[item.TicketID]
+      if(this.$route.params.ticketsType) {
+        // 购票
+        this.$route.params.ticketsType.forEach(item => {
+          orders.push({
+            CommodityID: item.TicketID,
+            CommodityNum: this.$route.params.ticketNum[item.TicketID]
+          })
         })
-      })
-      this.$axios.post('/TicketPurchase.svc/BuyTickets', {
-        user: {
-          PhoneNumber: this.$route.params.userInfo.PhoneNumber,
-          UID: this.$route.params.userInfo.UID,
-          Name: this.$route.params.userInfo.Name
-        },
-        DoneTime: this.$route.params.orderDate.toLocaleDateString().replace(/\//g, '-'),
-        PaymentType: this.waysRatio,
-        orders: orders,
-        VerificationCode: this.$route.params.userInfo.VerifyNumber
-      }).then(res => {
-        console.log(res);
-        this.paying = false;
-        if(res.data.code === 1) {
-          window.sessionStorage.setItem('PhoneNumber', this.$route.params.userInfo.PhoneNumber);
-          this.orderId = res.data.result;
-          this.payed = true;
-        } else {
+        this.$axios.post('/TicketPurchase.svc/BuyTickets', {
+          user: {
+            PhoneNumber: this.$route.params.userInfo.PhoneNumber,
+            UID: this.$route.params.userInfo.UID,
+            Name: this.$route.params.userInfo.Name
+          },
+          DoneTime: this.$route.params.orderDate.toLocaleDateString().replace(/\//g, '-'),
+          PaymentType: this.waysRatio,
+          orders: orders,
+          VerificationCode: this.$route.params.userInfo.VerifyNumber
+        }).then(res => {
+          console.log(res);
+          this.paying = false;
+          if(res.data.code === 1) {
+            window.sessionStorage.setItem('PhoneNumber', this.$route.params.userInfo.PhoneNumber);
+            this.orderId = res.data.result;
+            this.payed = true;
+          } else {
+            MessageBox({
+              type: 'error',
+              message: '支付失败'
+            })
+          }
+        }).catch(e => {
+          console.error(e);
           MessageBox({
             type: 'error',
             message: '支付失败'
           })
-        }
-      }).catch(e => {
-        console.error(e);
-        MessageBox({
-          type: 'error',
-          message: '支付失败'
         })
-      })
+      } else {
+        // 购买商品
+        this.$axios.post('', {
+
+        })
+      } 
     },
     /** 
      *  @description 跳转到“已支付”页

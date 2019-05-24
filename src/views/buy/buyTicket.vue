@@ -137,7 +137,7 @@ export default {
   },
   created() {
     const _this = this;
-    this.$axios.get("http://39.98.221.147:8009/TicketPurchase.svc/GetTickets").then(res => {
+    this.$axios.get("/TicketPurchase.svc/GetTickets").then(res => {
       if (res.data.code === 0) {
         MessageBox({
           title: "数据请求失败",
