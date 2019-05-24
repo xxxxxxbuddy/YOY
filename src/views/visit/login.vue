@@ -6,6 +6,7 @@
           <i class="el-icon-arrow-left"></i>
         </div>
       </div>
+      <img src="@/assets/images/welcome.png" class="logo">
     </div>
     <div class="banner">
         登录
@@ -29,7 +30,9 @@
     </el-form>
     <div class="tip">
       <el-checkbox label="已阅读并同意《游园须知》" v-model="tip"></el-checkbox>
-      <el-button type="primary" class="confirm" size="medium" @click="login" round="">登录</el-button>
+      <div class="login" @click="login">
+          <img src="@/assets/images/login.png" alt="登录">
+      </div>
     </div>
   </div>
 </template>
@@ -141,13 +144,25 @@ export default {
   height: 31vh;
   width: 100%;
   position: relative;
+  background-color: rgba(131, 203, 253, 1);
+  position: relative;
 }
 .bg {
-  background: url("../../assets/images/visitorLoginBG.jpg");
+  background: url("../../assets/images/LOGO.png");
   height: 31vh;
   width: 100%;
   z-index: -1;
-  background-size: cover;
+  background-size: 45%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  filter: opacity(0.3);
+}
+.logo{
+  position: absolute;
+  width: 80vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .back{
   position: absolute;
@@ -190,10 +205,15 @@ export default {
   width: 100%;
   text-align: center;
 }
-.confirm {
-  width: 60vw;
-  font-size: 1.25rem;
-  display: block;
-  margin: 2vh auto;
+.login {
+  border-radius: 10vw;
+  height: 4.5rem;;
+  background-color: rgba(131, 203, 253, 1);
+  width: 70vw;
+  margin: 5vh auto;
+}
+.login img{
+  height: 4.5rem;
+  vertical-align: bottom;
 }
 </style>

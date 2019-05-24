@@ -83,6 +83,11 @@ const router = new Router({
       component: resolve => require(['../views/visit/Order.vue'], resolve)
     },
     {
+      path: '/MyOrder',
+      name: 'MyOrder',
+      component: resolve => require(['../views/visit/MyOrder.vue'], resolve)
+    },
+    {
       path: '/DeviceNotSupport',
       name: 'DeviceNotSupport',
       component: resolve => require(['../views/DeviceNotSupport.vue'], resolve)

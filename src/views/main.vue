@@ -1,73 +1,26 @@
 <template>
     <div id="container">
-        <!-- <swiper :options="swiperOption" ref="mySwiper"> -->
-        <!-- @someSwiperEvent="callback" -->
-        <!-- slides -->
-        <!-- <swiper-slide>
-            <img src="../assets/images/swipeImg1.jpg" class="swiper" >
-        </swiper-slide>
-        <swiper-slide>
-            <img src="../assets/images/swipeImg2.jpg" class="swiper" >
-        </swiper-slide>
-        <swiper-slide>
-            <img src="../assets/images/swipeImg3.jpg" class="swiper" >
-        </swiper-slide>
-        <swiper-slide>
-            <img src="../assets/images/swipeImg4.jpg" class="swiper" >
-        </swiper-slide>
-        <swiper-slide>
-            <img src="../assets/images/swipeImg5.jpg" class="swiper" >
-        </swiper-slide> -->
-        <!-- Optional controls -->
-        <!-- <div class="swiper-pagination" slot="pagination"></div> -->
-        <!-- <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div>
-        <div class="swiper-scrollbar" slot="scrollbar"></div> -->
-        <!-- <div class="swiper-pagination" style="bottom: 30px"></div> -->
-        <!-- </swiper> -->
-        <el-carousel class="swiper-con" :style="'height: ' + swiperHeight">
-          <el-carousel-item>
-            <img src="../assets/images/swipeImg1.jpg" class="swiper" >
-          </el-carousel-item>
-          <el-carousel-item>
-            <img src="../assets/images/swipeImg2.jpg" class="swiper" >
-          </el-carousel-item>
-          <el-carousel-item>
-            <img src="../assets/images/swipeImg3.jpg" class="swiper" >
-          </el-carousel-item>
-          <el-carousel-item>
-            <img src="../assets/images/swipeImg4.jpg" class="swiper" >
-          </el-carousel-item>
-        </el-carousel>
-    
-        <div id="functions">
-            <!-- 购票子系统 -->
-            <div class="buy" @click="buyTicket" :style="'height:' + funcHeight + 'px' ">
-                <span class="title">购票</span>
-                <transition name="fade">
-                    <div class="mask" v-show="showTicket" @click.stop="exitBuyTicket">
-                        <div class="new-ticket" @click="newTicket">
-                            <span>购新票</span>
-                        </div>
-                        <div class="my-ticket" @click="myTicket">
-                            <span>查询我的票</span>
-                        </div>
-                    </div>
-                </transition>
-            </div>
-            <!-- 游园子系统 -->
-            <div class="visit" @click="visit" :style="'height:' + funcHeight + 'px' ">
-                <span class="title">游园</span>
-            </div>
-            <!-- 管理 -->
-            <div class="manage" @click="manage" :style="'height:' + funcHeight + 'px' ">
-                <span class="title">管理</span>
-            </div>
-            <!-- 设置 -->
-            <div class="setting" @click="setting" :style="'height:' + funcHeight + 'px' ">
-                <span class="title">设置</span>
-            </div>
+      <div class="logo" @click="exitBuyTicket">
+        <img src="@/assets/images/LOGO.png" class="logo-icon">
+        <img src="@/assets/images/logo-title.png" class="logo-title">
+      </div>
+      <div class="options" @click="exitBuyTicket">
+        <div class="buy-tickets">
+          <span class="parent-option" @click.stop="buyTicket" :style="'opacity:' + showTicket + ';display: ' + display1">前往购票
+          <i class="el-icon-arrow-right"></i>
+          <i class="el-icon-arrow-right"></i>
+          </span>
+          <span class="child-options" :style="'opacity:' + (1 - showTicket) + ';display: ' + display2">
+            <span class="new-ticket" @click="newTicket" :style="'transform: translateX(' + transform1 + ')'">购新票</span>
+            <span class="my-ticket" @click="myTicket" :style="'transform: translateX(' + transform2 + ')'">已购票</span>
+          </span>
         </div>
+        <div class="visit" @click="visit">
+          快乐游园
+          <i class="el-icon-arrow-right"></i>
+          <i class="el-icon-arrow-right"></i>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -76,53 +29,35 @@
 // import 'swiper/dist/css/swiper.css';
 export default {
   name: 'Main',
-  // components: {
-  //   swiper,
-  //   swiperSlide
-  // },
   data() {
     return {
-      // swiperOption: {
-      //   autoplay: {
-      //     delay: 1000,
-      //     disableOnInteraction: true
-      //   },
-      //   speed: 2000,
-      //   loop: true,
-      //   height: '100%',
-      //   pagination: {
-      //     el: '.swiper-pagination'
-      //   },
-      //   scroolbar: false
-      //   // some swiper options/callbacks
-      //   // 所有的参数同 swiper 官方 api 参数
-      //   // ...
-      // },
-      // swiperWidth: 345, // 轮播图默认宽度
-      swiperHeight: 260, // 轮播图默认高度
-      funcHeight: 160, // 功能模块默认高度
-      showTicket: false // 显示购票子功能
+      showTicket: 1, // 显示购票子功能
+      transform1: 0,
+      transform2: 0,
+      display1: 'block',
+      display2: 'none'
     }
   },
-  // computed: {
-  //   swiper() {
-  //     return this.$refs.mySwiper.swiper;
-  //   }
-  // },
   mounted() {
-    this.swipeHeight = document.getElementById('container').offsetWidth * 0.75;
-    this.funcHeight = document.getElementsByClassName('buy')[0].offsetWidth;
-    // current swiper instance
-    // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
-    // console.log("this is current swiper instance object", this.swiper);
-    // this.swiper.slideTo(3, 1000, false);
   },
   methods: {
     buyTicket() {
-      this.showTicket = true;
+      this.showTicket = 0;
+      this.transform1 = "-100%";
+      this.transform2 = "100%";
+      setTimeout(() => {
+        this.display1 = "none";
+        this.display2 = "block";
+      }, 100);
     },
     exitBuyTicket() {
-      this.showTicket = false;
+      this.showTicket = 1;
+      this.transform1 = "100%";
+      this.transform2 = "-100%";
+      setTimeout(() => {
+        this.display1 = "block";
+        this.display2 = "none";
+      }, 100)
     },
 
     /**
@@ -144,20 +79,6 @@ export default {
     */
     visit() {
       this.$router.push('visitorLogin'); // 
-    },
-
-    /**
-    * @description 管理
-    */
-    manage() {
-      this.$router.push('manage');
-    },
-
-    /**
-    * @description 设置
-    */
-    setting() {
-      this.$router.push('setting');
     }
   }
 };
@@ -176,116 +97,49 @@ body{
   text-align: center;
   color: #2c3e50;
   width: 100%;
-  background-color: rgba(121, 200, 166, 1);
+  background-color: rgba(131, 203, 253, 1);
   height: 100%;
   min-height: 100vh;
 }
-.swiper-con{
-  height: 100%;
-  margin: 1vh 0;
+.logo{
+  padding: 10vh 0;
 }
-.swiper{
-  width: 98%;
-  padding: 1%;
-  border-radius: 5%;
-  margin-bottom: 10px;
+.logo-icon{
+  width: 40vw;
 }
-.swiper-container-horizontal > .swiper-pagination-bullets {
-  bottom: 30px;
+.logo-title{
+  width: 80vw;
 }
-.swiper-slide-active{ height:auto;}
-#functions{
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+.buy-tickets, .visit{
+  color: #fff;
+  width: 80vw;
+  height: 6rem;
+  border: 2px solid #fff;
+  border-radius: 3vw;
+  text-align: center;
+  font-size: 3rem;
+  line-height: 2;
+  font-weight: 500;
+  margin: 5vh auto;
 }
-#functions>div{
+.options i{
+  font-weight: 1000;
+  margin-right: -2rem;
+}
+.buy-tickets span{
+  transition: all 0.3s ease;
+}
+.buy-tickets{
   position: relative;
-  width: 48%;
-  border-radius: 10%;
-  margin: 1%;
-  cursor: pointer;
 }
-.title{
-  position: absolute;
-  left: 8%;
-  top: 4%;
-  color: #fff;
-  font-size: 1.5rem;
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-.buy{
-  background-color: rgba(255, 59, 48, 1);
-  background-image: url('../assets/images/bike.png');
-  background-size: 53% 67%;
-  background-repeat: no-repeat;
-  background-position: right 80%;
-  box-shadow: 0 2px 6px 0 rgba(255, 59, 48, 1);
-}
-.buy .mask{
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 10%;
-  width: 100%;
-  height: 100%;
+.parent-option{
   z-index: 2;
+  display: block;
 }
-.new-ticket, .my-ticket{
-  overflow: hidden;
+.child-options span{
   position: absolute;
-  width: 70%;
-  background-color: rgba(250, 61, 49, 1);
-  z-index: 3;
-  color: #fff;
   left: 50%;
-  margin-left: -36%;
-  height: 30%;
-  border-radius: 10px;
-  padding: 1%;
-  font-size: 1.1rem;
-}
-.new-ticket::before, .my-ticket::before{
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-}
-.buy span{
-  display: inline-block;
-}
-.new-ticket{
-  top: 24px;
-}
-.my-ticket{
-  bottom: 24px;
-}
-.visit{
-  background-color: rgba(121, 200, 166, 1);
-  background-image: url('../assets/images/dandelion.png');
-  background-size: 80% 66%;
-  background-position: bottom center;
-  background-repeat: no-repeat;
-  box-shadow: 0 2px 6px 0 rgba(121, 200, 166, 1);
-}
-.manage{
-  background-color: rgba(130, 198, 230, 1);
-  background-image: url('../assets/images/peach.png');
-  background-position: center 80%;
-  background-size: 75% 54%;
-  background-repeat: no-repeat;
-  box-shadow: 0 2px 6px 0 rgba(130, 198, 230, 1);
-}
-.setting{
-  background-color: rgba(9, 107, 145, 1);
-  background-image: url('../assets/images/moon.png');
-  background-position: center center;
-  background-size: 82% 87%;
-  background-repeat: no-repeat;
-  box-shadow: 0 2px 6px 0 rgba(9, 107, 145, 1);
+  top: 0;
+  margin-left: -4.5rem;
 }
 </style>

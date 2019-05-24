@@ -33,8 +33,9 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div>
-          <el-button type="primary" class="login" @click="login" round>登录</el-button>
+        <div class="login" @click="login">
+          <img src="@/assets/images/login.png" alt="登录">
+          <i class="el-icon-right"></i>
         </div>
  </div>
 </template>
@@ -187,8 +188,19 @@ export default {
   width: 80vw;
 }
 .login {
-  border-radius: 6vw;
-  padding: 3vw 20vw !important;
-  font-size: 1.75rem;
+  border-radius: 10vw;
+  height: 6rem;;
+  background-color: rgba(131, 203, 253, 1);
+  width: 90vw;
+  margin: 0 auto;
+}
+.login img{
+  height: 6rem;
+  vertical-align: bottom;
+}
+.login i{
+  line-height: 6rem;
+  font-size: 6rem;
+  color: #fff;
 }
 </style>
