@@ -1,8 +1,10 @@
 <template>
-    <div class="header">
-        <i class="el-icon-arrow-left back" @click="goBack"></i>
-        <span class="last-page" @click="goBack">{{lastPage}}</span>
-        <span class="title" :style="'color: ' + color">{{title}}</span>
+    <div style="padding-top: 3rem;">
+        <div class="header">
+          <i class="el-icon-arrow-left back" @click="goBack"></i>
+          <span class="last-page" @click="goBack">{{lastPage}}</span>
+          <span class="title" :style="'color: ' + color">{{title}}</span>
+        </div>
     </div>
 </template>
 
@@ -34,7 +36,9 @@ export default {
 .header{
   height: 3rem;
   width: 100%;
-  position: relative;
+  position: fixed;
+  top: 0;
+  z-index: 100;
   background: #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 1.5rem;

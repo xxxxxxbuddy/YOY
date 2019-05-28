@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div style="background-color: rgba(153, 153, 153, 0.19);height: 100%;min-height: 100vh">
         <Header title="队伍管理"></Header>
-        <i class="el-icon-plus add" @click="invite"></i>
+        <div class="map" @click="map">地图</div>
 
         <div class="invite" :style="'transform: ' + showInvite">
           <div class="search">
@@ -21,6 +21,23 @@
         <div class="mask" @click="quitInvite" v-if="showMask"></div>
 
         <el-tabs v-model="activeTab" stretch>
+            <el-tab-pane label="队员信息" name="info" class="member-info" >
+                <el-card class="member-card" style="position: relative">
+                  <el-button type="danger" style="position: absolute;right: 2vw;top: 2vh;">退出</el-button>
+                  <span>我</span><br>
+                  <span>ID:</span><br>
+                  <span>游客状态：</span><br>
+                </el-card>
+                <el-card v-for="item in membersList" class="member-card" :key="item.VisitorID">
+                  <span>{{item.VisitorName}}</span><br>
+                  <span>ID:{{item.VisitorID}}</span><br>
+                  <span>游客状态：{{item.VisitorState}}</span><br>
+                </el-card>
+                <el-card class="member-card" style="text-align: center">
+                  <i class="el-icon-plus" style="font-size: 16vw;opacity: 0.5" @click="invite"></i>
+                </el-card>
+            </el-tab-pane>
+
             <el-tab-pane label="组队消息" name="message">
                 <span class="no-item" v-if="inviteList.length === 0">暂无组队邀请</span>
                 <transition-group name="invite-card">
@@ -32,24 +49,6 @@
                         <el-button type="danger" round style="margin-left: 37%" @click="decline" :data-id="item.InvitorID">忽略</el-button>
                     </el-card>
                 </transition-group>
-            </el-tab-pane>
-
-            <el-tab-pane label="队员信息" name="info" class="member-info" >
-                <el-card class="member-card" style="position: relative">
-                  <el-button type="danger" style="position: absolute;right: 2vw;top: 5vh;">退出</el-button>
-                  <span>我</span><br>
-                  <span>ID:</span><br>
-                  <span>游客状态：</span><br>
-                  <img src="@/assets/images/address.svg" style="width: 4vw">
-                  <span style="color: #409eff">位置</span>
-                </el-card>
-                <el-card v-for="item in membersList" class="member-card" :key="item.VisitorID">
-                  <span>{{item.VisitorName}}</span><br>
-                  <span>ID:{{item.VisitorID}}</span><br>
-                  <span>游客状态：{{item.VisitorState}}</span><br>
-                  <img src="@/assets/images/address.svg" style="width: 4vw">
-                  <span style="color: #409eff">位置</span>
-                </el-card>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -65,7 +64,7 @@ export default {
   },
   data() {
     return {
-      activeTab: 'message',
+      activeTab: 'info',
       showInvite: 'translateY(-100%)',
       showMask: false,
       inviteList: [
@@ -100,8 +99,8 @@ export default {
     }
   },
   created() {
-    let VisitorID = window.sessionStorage.getItem('VisitorID');
-    this.$axios.get('/Amusement.svc/Group/GetApplication/' + VisitorID).then(res => {
+    this.VisitorID = window.sessionStorage.getItem('VisitorID');
+    this.$axios.get('/Amusement.svc/Group/GetApplication/' + this.VisitorID).then(res => {
       if(res.data.code === 1 && !!res.data.result.length) {
         this.inviteList = res.data.result;
       }
@@ -168,27 +167,26 @@ export default {
      * @description 邀请加入
      */
     inviteVisitor(e) {
-      console.log(e.target.parentNode.dataset.id);
       e.target.innerText = "已邀请";
       e.target.parentNode.style.background = '#909399';
       e.target.parentNode.setAttribute('disabled', 'disabled');
-      // this.$axios.post('/Amusement.svc/Invite', {
-      //   InviterID: '',
-      //   InviteeID: e.target.parentNode.dataset.id
-      // }).then(res => {
-      //   if(res.data.code === 1) {
-      //     e.target.innerText = "已邀请";
-      //     e.target.parentNode.style.background = '#909399';
-      //   }
-      // })
+      this.$axios.post('/Amusement.svc/Group/ Invite', {
+        InviterID: this.VisitorID,
+        InviteeID: e.target.parentNode.dataset.id
+      }).then(res => {
+        if(res.data.code === 1) {
+          e.target.innerText = "已邀请";
+          e.target.parentNode.style.background = '#909399';
+        }
+      })
     },
     /**
      * @description 接受邀请
      */
     confirm(e) {
-      this.$axios.post('JoinTeam', {
-        VisitorID: '',
-        InvitorID: e.target.dataset.id
+      this.$axios.post('/Amusement.svc/Group/Agree', {
+        VisitorID: this.VisitorID,
+        InviterID: e.target.dataset.id
       }).then(res => {
         if(res.data.code === 1) {
           // MessageBox({
@@ -211,36 +209,48 @@ export default {
      * @description 拒绝邀请
      */
     decline(e) {
-      this.$axios.post('IgnoreNotice', {
-        VisitorID: '',
-        InvitorID: e.target.dataset.id
+      this.$axios.post('/Amusement.svc/Group/Refuse', {
+        VisitorID: this.VisitorID,
+        InviterID: e.target.dataset.id
       })
       let index = this.inviteList.indexOf({InvitorID: e.target.dataset.id})
       e.srcElement.parentNode.parentNode.style.opacity = 0;
       setTimeout(() => {
         e.srcElement.parentNode.parentNode.style.display = 'none';
       }, 500);
+    },
+    /**
+     * @description 进入地图
+     */
+    map() {
+    //   this.$router.push({
+    //     name: 'Map',
+    //     params: {
+    //       GroupID: 
+    //     }
+    //   })
     }
   }
 }
 </script>
 
 <style scoped>
-.add{
+.map{
   position: absolute;
   top: 0;
   right: 5px;
-  z-index: 2;
+  z-index: 1000;
   line-height: 3rem;
   font-size: 1.5rem;
   padding: 0.25rem 0.5rem;
+  color: #409EFF;
 }
 .no-item{
   text-align: center;
   display: block;
 }
 .invite-card{
-  width: 98%;
+  width: 90%;
   margin: 1vh auto;
   background-color: rgba(247, 238, 214, 1);
   font-size: 1rem;
@@ -263,7 +273,7 @@ export default {
   transition: all 0.3s ease;
   width: 100%;
   z-index: 3;
-  top: 0;
+  top: 3rem;
   background-color: #fff;
   padding: 2vw;
 }
