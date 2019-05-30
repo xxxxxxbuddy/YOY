@@ -42,7 +42,6 @@
           class="input-number"
           v-model="ticketNum[item.TicketID]"
           :precision="0"
-          @change="numChange"
           :min="0"
           :max="100"
           :label="item.name"
@@ -67,35 +66,15 @@ export default {
     return {
       pickerOptions: {
         disabledDate(time) {
-          return time.getTime() < Date.now();
+          return time.getTime() < new Date(Date.now() - 86400000);
         }
       },
       orderDate: "",
-      ticketsType: [
-        {
-          TicketID: 0,
-          TicketName: "成人票",
-          TicketPrice: 200,
-          TicketInfo: "适用于成人或身高>1.5米的儿童",
-          TicketPic: require("@/assets/images/adult.png")
-        },
-        {
-          TicketID: 1,
-          TicketName: "儿童票",
-          TicketPrice: 150,
-          TicketInfo: "适用于身高<1.5米的儿童",
-          TicketPic: require("@/assets/images/child.png")
-        }
-      ],
-      ticketNum: {
-        T00001: 0,
-        T00002: 0,
-        T00003: 0
-      }
+      ticketsType: [],
+      ticketNum: {}
     };
   },
   methods: {
-    numChange() {},
     /**
      * @description 跳转到支付确认页面
      */
@@ -130,33 +109,21 @@ export default {
   },
   computed: {
     totalPrice() {
-      return (
-        this.ticketNum.T00001 * this.ticketsType[0].TicketPrice +
-        this.ticketNum.T00002 * this.ticketsType[1].TicketPrice
-      );
+      var total = 0;
+      let i = 0;
+      Object.keys(this.ticketNum).forEach(item => {
+        total = total + this.ticketNum[item] * this.ticketsType[i].TicketPrice;
+        i++;
+      })
+      return total;
     }
   },
   created() {
-    const _this = this;
-    this.$axios.get("/TicketPurchase.svc/GetTickets").then(res => {
-      if (res.data.code === 0) {
-        MessageBox({
-          title: "数据请求失败",
-          type: "error",
-          center: true,
-          callback: () => {
-            this.$router.go(-1);
-          }
-        });
-      } else {
-        if (res.data.result.length > 0) {
-          res.data.result.forEach(item => {
-            item.TicketPic = require('@/assets/images/' + item.TicketPic);
-          })
-          this.ticketsType = res.data.result;
-        }
-      }
-    });
+    this.ticketsType = this.$route.params.ticketsType;
+    this.ticketNum = this.$route.params.ticketNum;
+    this.ticketsType.forEach(item => {
+      item.TicketPic = require('@/assets/images/' + item.TicketPic);
+    })
   }
 };
 </script>
@@ -279,6 +246,7 @@ export default {
   color: rgba(80, 80, 80, 1);
 }
 .ticket-price {
+  width: 20vw;
   font-size: 1rem;
   color: rgba(212, 48, 48, 1);
 }

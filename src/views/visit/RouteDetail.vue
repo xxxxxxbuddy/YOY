@@ -60,8 +60,11 @@ export default {
   },
   data() {
     return {
-
+      projectByDistance: [],
+      projectByWaitTime: []
     }
+  },
+  mounted() {
   }
 }
 </script>

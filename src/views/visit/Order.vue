@@ -3,12 +3,12 @@
         <Header title="确认订单"></Header>
         <div class="order-detail">
           <span class="store-name">桃花阉饮吧</span>
-          <div v-for="item in foodList" :key="item.FoodID" class="food">
+          <div v-for="item in foodList" :key="item.CommodityID" class="food">
             <img class="image" src="@/assets/images/FoodBG.jpg">
-            <span class="food-name">{{item.FoodName}}</span>
-            <span class="food-price">￥{{item.FoodPrice}}</span><br>
-            <span class="food-description">描述：{{item.FoodDescription}}</span>
-            <span class="food-number">×{{item.FoodNum}}</span>
+            <span class="food-name">{{item.CommodityName}}</span>
+            <span class="food-price">￥{{item.CommodityPrice}}</span><br>
+            <span class="food-description">描述：{{item.CommodityInfo}}</span>
+            <span class="food-number">×{{item.CommodityNum}}</span>
           </div>
         </div>
 
@@ -16,13 +16,14 @@
             <div class="total-price">
                 <div>共{{pieces}}件，合计：{{totalPrice}}元</div>
             </div>
-            <el-button type="primary" class="confirm" size="medium" @click="pay">确认预定</el-button>
+            <el-button type="primary" class="confirm" size="medium" @click="pay">确认支付</el-button>
         </div>
     </div>
 </template>
 
 <script>
 import Header from '@/components/header'
+import { MessageBox } from 'element-ui';
 
 export default {
   components: {
@@ -40,11 +41,36 @@ export default {
   },
   methods: {
     pay() {
-      this.$router.push({
-        name: 'payment',
-        params: {
-          totalPrice: this.totalPrice
+      var list = this.foodList.map(item => {
+        return {
+          CommodityID: item.CommodityID,
+          CommodityNum: item.CommodityNum
         }
+      })
+      this.$axios.post('/Recommendation.svc/BuyCommodity', {
+        VisitorID: window.sessionStorage.getItem('VisitorID'),
+        orders: list,
+        PaymentType: 4
+      }).then(res => {
+        if(res.data.code === 1) {
+          MessageBox({
+            type: 'success',
+            message: '支付成功',
+            callback: () => {
+              this.$route.push('MyOrder')
+            }
+          })
+        }else {
+          MessageBox({
+            type: 'error',
+            message: res.data.errMsg
+          })
+        }
+      }).catch(e => {
+        MessageBox({
+          type: 'error',
+          message: e.message
+        })
       })
     }
   }

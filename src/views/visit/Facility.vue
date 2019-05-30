@@ -4,27 +4,42 @@
 
         <el-tabs v-model="activeTab" stretch style="background-color: #fff">
             <el-tab-pane label="按距离推荐" name="distance">
-                <el-card class="card" v-for="item in distanceList" :key="item.ProjectID">
-                    <img class="image" src="@/assets/images/buyTicketBG.jpg">
-                        <div style="margin-left: 35vw">
-                            <span class="name">{{item.ProjectName}}</span><br>
-                            <span class="info">{{item.distance}}</span>
-                            <span>开放时间：{{item.OpenningTime}}</span><br>
-                            <span>适合人群：{{item.ProjectForPeople}}</span><br>
-                            <i class="el-icon-star-on" style="color: rgba(255, 141, 26, 1)"></i>
-                            <span>{{item.ProjectAttention}}</span><br>
-                            <i class="el-icon-location" style="color: rgba(42, 130, 228, 0.84)"></i>
-                            <span>地址</span>
-                        </div>
+                <el-card class="card" v-for="item in projectByDistance" :key="item.ProjectID">
+                    <img class="image" :src="require(`@/assets/images/${item.ProjectPic}`)">
+                    <div style="margin-left: 35vw">
+                        <span class="name">{{item.ProjectName}}</span><br>
+                        <span class="info">{{item.Record}}m</span>
+                        <span>开放时间：{{item.OpeningTime}}</span><br>
+                        <span>适合人群：{{item.ProjectForPeople}}</span><br>
+                        <i class="el-icon-star-on" style="color: rgba(255, 141, 26, 1)"></i>
+                        <span>{{item.ProjectAttention}}</span><br>
+                        <i class="el-icon-location" style="color: rgba(42, 130, 228, 0.84)"></i>
+                        <span>地址</span>
+                    </div>
                 </el-card>
             </el-tab-pane>
-            <el-tab-pane label="按等待时间推荐" name="waittime"></el-tab-pane>
+            <el-tab-pane label="按等待时间推荐" name="waittime">
+              <el-card class="card" v-for="item in projectByDistance" :key="item.ProjectID">
+                    <img class="image" :src="require(`@/assets/images/${item.ProjectPic}`)">
+                    <div style="margin-left: 35vw">
+                        <span class="name">{{item.ProjectName}}</span><br>
+                        <span class="info">约等待{{item.Record}}分钟</span>
+                        <span>开放时间：{{item.OpeningTime}}</span><br>
+                        <span>适合人群：{{item.ProjectForPeople}}</span><br>
+                        <i class="el-icon-star-on" style="color: rgba(255, 141, 26, 1)"></i>
+                        <span>{{item.ProjectAttention}}</span><br>
+                        <i class="el-icon-location" style="color: rgba(42, 130, 228, 0.84)"></i>
+                        <span>地址</span>
+                    </div>
+                </el-card>
+            </el-tab-pane>
         </el-tabs>
     </div>
 </template>
 
 <script>
 import Header from '@/components/header';
+import { MessageBox } from 'element-ui';
 
 export default {
   components: {
@@ -33,36 +48,52 @@ export default {
   data() {
     return {
       activeTab: 'distance',
-      distanceList: [
-        {
-          ProjectID: 1,
-          ProjectName: '中世纪城堡',
-          distance: '300m',
-          OpenningTime: '9:00-18:30',
-          ProjectForPeople: '青少年、成人',
-          ProjectAttention: '恐高、有心脏病等不适合加入'
-        },
-        {
-          ProjectID: 2,
-          ProjectName: '中世纪城堡',
-          distance: '300m',
-          OpenningTime: '9:00-18:30',
-          ProjectForPeople: '青少年、成人',
-          ProjectAttention: '恐高、有心脏病等不适合加入'
-        }
-      ],
-      waittimeList: []
+      projectByDistance: [{ProjectID: "P00001", ProjectName: "海盗船", ProjectState: 1, ProjectInfo: "海盗船游乐项目", ProjectPic: "swipeImg2.jpg", OpeningTime: "hh:mm:ss-hh:mm:ss", ProjectAttention: "注意事项有blabla", ProjectForPeople: "1.2m以下儿童不适合", Record: "10"}],
+      projectByWaitTime: []
     }
   },
-  created() {
-    // this.$axios.post('/Amusement.svc/getBetterProject', {
-    //   location: ''
-    // }).then(res => {
-    //   if(res.data.code === 1) {
-    //     this.distanceList = res.data.distance;
-    //     this.waittimeList = res.data.waittime;    
-    //   }
-    // })
+  mounted() {
+    this.$axios.post('/Recommendation.svc/ProjectRecom', {
+      RecomType: 1,
+      VisitorID: window.sessionStorage.getItem('VisitorID')
+    })
+      .then(res => {
+        if(res.data.code === 1) {
+          this.projectByDistance = res.data.result;
+        }else {
+          MessageBox({
+            type: 'error',
+            message: res.data.errMsg
+          })
+        }
+      })
+      .catch(e => {
+        MessageBox({
+          type: 'error',
+          message: e.message
+        })
+      })
+
+    this.$axios.post('/Recommendation.svc/ProjectRecom', {
+      RecomType: 2,
+      VisitorID: window.sessionStorage.getItem('VisitorID')
+    })
+      .then(res => {
+        if(res.data.code === 1) {
+          this.projectByWaitTime = res.data.result;
+        }else {
+          MessageBox({
+            type: 'error',
+            message: res.data.errMsg
+          })
+        }
+      })
+      .catch(e => {
+        MessageBox({
+          type: 'error',
+          message: e.message
+        })
+      })
   }
 }
 </script>
@@ -86,6 +117,7 @@ export default {
 }
 .card span{
     font-size: 1rem;
+    line-height: 2;
 }
 .name{
     font-size: 1.5rem !important;

@@ -9,12 +9,14 @@
             <el-button type="primary" round style="width: 20vw;margin-left: 2vw" @click="search">搜索</el-button>
           </div>
           <div class="search-results">
-            <el-card v-for="item in searchResults" :key="item.VisitorID" style="position: relative">
-              <span style="">{{item.Name}}</span>
-              <br>
-              <span>ID: {{item.VisitorID}}</span>
-              <el-button type="success" round @click="inviteVisitor" :data-id="item.VisitorID" class="invite-button">+邀请组队</el-button>
-            </el-card>
+            <transition-group name="invite-card">
+              <el-card v-for="item in searchResults" :key="item.VisitorID" style="position: relative">
+                <span style="">{{item.Name}}</span>
+                <br>
+                <span>ID: {{item.VisitorID}}</span>
+                <el-button type="success" round @click="inviteVisitor" :data-id="item.VisitorID" class="invite-button">+邀请组队</el-button>
+              </el-card>
+            </transition-group>
           </div>
         </div>
 
@@ -296,7 +298,7 @@ export default {
   transition: all 0.3s ease;
   width: 100%;
   z-index: 3;
-  top: 3rem;
+  top: 4rem;
   background-color: #fff;
   padding: 2vw;
 }

@@ -49,7 +49,7 @@ export default {
             item.PaymentTime = formatDate(new Date(item.PaymentTime), 'yyyy-MM-dd hh:mm:ss');
             item.PaymentType = this.getPaymentType(item.OrderState, item.PaymentType);
           })
-          this.historyRecord = res.data.result;
+          this.historyRecord = res.data.result.reverse();
         }else {
           MessageBox({
             type: 'error',

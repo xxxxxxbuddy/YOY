@@ -26,6 +26,10 @@ module.exports = {
       '/NoticeManagement.svc': {
         target: 'http://39.98.221.147:8009',
         changeOrigin: true
+      },
+      '/Recommendation.svc': {
+        target: 'http://39.98.221.147:8009',
+        changeOrigin: true
       }
     },
 

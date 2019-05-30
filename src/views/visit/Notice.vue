@@ -96,9 +96,13 @@ export default {
                 case 1: item.NoticeType = '寻物通知'; break;
               };
               this.noticeList = res.data.result;
-              var noticeListDom = document.getElementsByClassName('notice-card');
-              Array.prototype.forEach.call(noticeListDom, (item) => {
-                if(item.children[0].children[2] === '')
+              this.$nextTick(() => {
+                var noticeListDom = document.getElementsByClassName('notice-card');
+                Array.prototype.forEach.call(noticeListDom, (item) => {
+                  if(item.children[0].children[2].innerText === '已失效') {
+                    item.children[0].children[1].classList.add('useless-button');
+                  }
+                })
               })
             })
           }else {
@@ -151,6 +155,11 @@ export default {
           if(res.data.code === 1) {
             e.target.parentElement.classList.add('useless-button')
             e.target.parentElement.setAttribute('disabled', 'disabled');
+          }else{
+            MessageBox({
+              type: 'info',
+              message: res.data.errMsg
+            })
           }
         })
       console.log(e)
@@ -244,7 +253,7 @@ form label{
   padding: 0px 15px;
 }
 .useless-button{
-  border-color: #909399;
-  background-color: #909399;
+  border-color: #909399 !important;
+  background-color: #909399 !important;
 }
 </style>

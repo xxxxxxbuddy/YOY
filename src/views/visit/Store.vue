@@ -1,13 +1,13 @@
 <template>
     <div>
         <Header title="商品"></Header>
-        <el-card class="card" v-for="item in foodList" :key="item.FoodID" >
-            <img class="image" src="@/assets/images/FoodBG.jpg">
+        <el-card class="card" v-for="item in foodList" :key="item.CommodityID" >
+            <img class="image" :src="require(`@/assets/images/${item.CommodityPic}`)">
                 <div style="margin-left: 35vw;position: relative">
-                    <span class="name">{{item.FoodName}}</span>
-                    <el-input-number class="input-number" v-model="foodNum[item.FoodID]" :min="0" :max="10" :label="item.FoodName"></el-input-number><br>
-                    <span class="info">￥{{item.FoodPrice}}</span><br>
-                    <span>描述{{item.FoodDescription}}</span><br>     
+                    <span class="name">{{item.CommodityName}}</span>
+                    <el-input-number class="input-number" v-model="foodNum[item.CommodityID]" :min="0" :max="10" :label="item.FoodName"></el-input-number><br>
+                    <span class="info">￥{{item.CommodityPrice}}</span><br>
+                    <span>描述{{item.CommodityInfo}}</span><br>     
                 </div>
         </el-card>
         <div class="handle-bar">
@@ -30,29 +30,22 @@ export default {
   },
   data() {
     return {
-      foodList: [
-        {
-          FoodID: 1,
-          FoodName: '肥宅快乐水',
-          FoodPrice: 20,
-          FoodDescription: '冰冰凉凉，超级好喝'
-        },
-        {
-          FoodID: 2,
-          FoodName: '玛丽莲冰露',
-          FoodPrice: 20,
-          FoodDescription: '冰冰凉凉，超级好喝'
-        }
-      ],
-      foodNum: {
-        1: 0,
-        2: 0
-      }
+      foodList: this.$route.params.foodList || [],
+      foodNum: this.$route.params.foodNum || {}
     }
+  },
+  mounted() {
+    
   },
   computed: {
     totalPrice() {
-      return this.foodNum[1] * this.foodList[0].FoodPrice + this.foodNum[2] * this.foodList[1].FoodPrice
+      var total = 0;
+      let i = 0;
+      Object.keys(this.foodNum).forEach(item => {
+        total = total + this.foodNum[item] * this.foodList[i].CommodityPrice;
+        i++;
+      })
+      return total;
     }
   },
   methods: {
@@ -62,9 +55,9 @@ export default {
     pay() {
       let pieces = 0;
       let FoodList = this.foodList.filter(item => {
-        if(this.foodNum[item.FoodID] > 0) {
-          item.FoodNum = this.foodNum[item.FoodID];
-          pieces += item.FoodNum;
+        if(this.foodNum[item.CommodityID] > 0) {
+          item.CommodityNum = this.foodNum[item.CommodityID];
+          pieces += item.CommodityNum;
           return item;
         }        
       })

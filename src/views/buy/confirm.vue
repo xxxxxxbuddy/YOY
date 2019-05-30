@@ -222,6 +222,7 @@ export default {
   color: rgba(80, 80, 80, 1);
 }
 .ticket-price {
+  width: 20vw;
   font-size: 1rem;
   color: rgba(212, 48, 48, 1);
 }

@@ -25,8 +25,8 @@
 </template>
 
 <script>
-// import { swiper, swiperSlide } from 'vue-awesome-swiper';
-// import 'swiper/dist/css/swiper.css';
+import {MessageBox} from 'element-ui'
+
 export default {
   name: 'Main',
   data() {
@@ -64,7 +64,26 @@ export default {
     * @description 买新票 
     */
     newTicket() {
-      this.$router.push('BuyTicket');
+      this.$axios.get("/TicketPurchase.svc/GetTickets").then(res => {
+        if (res.data.code === 0) {
+          MessageBox({
+            title: "数据请求失败",
+            type: "error"
+          });
+        } else {
+          var ticketNum = {};
+          for(var i = 1; i < res.data.result.length + 1; i++) {
+            ticketNum['T0000' + i] = 0;
+          }
+          this.$router.push({
+            name: 'BuyTicket',
+            params: {
+              ticketsType: res.data.result,
+              ticketNum: ticketNum
+            }
+          });
+        }
+      });
     },
 
     /**
