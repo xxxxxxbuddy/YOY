@@ -25,13 +25,13 @@
                 <el-card class="member-card" style="position: relative">
                   <el-button type="danger" style="position: absolute;right: 2vw;top: 2vh;">退出</el-button>
                   <span>我</span><br>
-                  <span>ID:</span><br>
-                  <span>游客状态：</span><br>
+                  <span>ID:{{VisitorID}}</span><br>
+                  <span>游客状态：{{myStatus.TeamerStatus}}</span><br>
                 </el-card>
                 <el-card v-for="item in membersList" class="member-card" :key="item.VisitorID">
-                  <span>{{item.VisitorName}}</span><br>
-                  <span>ID:{{item.VisitorID}}</span><br>
-                  <span>游客状态：{{item.VisitorState}}</span><br>
+                  <span>{{item.TeamerName}}</span><br>
+                  <span>ID:{{item.TeamerID}}</span><br>
+                  <span>游客状态：{{item.TeamerStatus}}</span><br>
                 </el-card>
                 <el-card class="member-card" style="text-align: center">
                   <i class="el-icon-plus" style="font-size: 16vw;opacity: 0.5" @click="invite"></i>
@@ -64,30 +64,32 @@ export default {
   },
   data() {
     return {
+      VisitorID: window.sessionStorage.getItem('VisitorID'),
       activeTab: 'info',
       showInvite: 'translateY(-100%)',
       showMask: false,
       inviteList: [
-        {
-          InvitorID: 12345,
-          InvitorName: '张雷'
-        },
-        {
-          InvitorID: 1345,
-          InvitorName: '张雷'
-        }
+        // {
+        //   InvitorID: 12345,
+        //   InvitorName: '张雷'
+        // },
+        // {
+        //   InvitorID: 1345,
+        //   InvitorName: '张雷'
+        // }
       ],
+      myStatus: {},
       membersList: [
-        {
-          VisitorID: 1,
-          VisitorName: '张雷',
-          VisitorState: '空闲'
-        },
-        {
-          VisitorID: 2,
-          VisitorName: '张雷',
-          VisitorState: '空闲'
-        }
+        // {
+        //   VisitorID: 1,
+        //   VisitorName: '张雷',
+        //   VisitorState: '空闲'
+        // },
+        // {
+        //   VisitorID: 2,
+        //   VisitorName: '张雷',
+        //   VisitorState: '空闲'
+        // }
       ],
       searchContent: '',
       searchResults: [
@@ -95,11 +97,11 @@ export default {
         //   VisitorID: 0,
         //   VisitorName: 'test'
         // }
-      ]
+      ],
+      GroupID: ''
     }
   },
-  created() {
-    this.VisitorID = window.sessionStorage.getItem('VisitorID');
+  mounted() {
     this.$axios.get('/Amusement.svc/Group/GetApplication/' + this.VisitorID).then(res => {
       if(res.data.code === 1 && !!res.data.result.length) {
         this.inviteList = res.data.result;
@@ -109,26 +111,47 @@ export default {
         type: 'error',
         message: '网络故障，请求失败'
       })
-    })
-    // this.$axios.post('/Amusement.svc/GetTeamrInfo', {
-    //   VisitorID: ''
-    // }).then(res => {
-    //   if(res.data.code === 1) {
-    //     this.membersList = res.data.result;
-    //   }else {
-    //     MessageBox({
-    //       type: 'error',
-    //       message: '获取队伍信息失败\n' + res.ErrorMsg
-    //     })
-    //   }
-    // }).catch(e => {
-    //   MessageBox({
-    //     type: 'error',
-    //     message: '获取队伍信息失败\n' + e.message
-    //   })
-    // });
+    });
+    this.getTeamerInfo();  
   },
   methods: {
+    /**
+     * @description 获取队伍信息
+     */
+    getTeamerInfo() {
+      this.$axios.get('/Amusement.svc/Group/TeamerInfo/' + this.VisitorID)
+        .then(res => {
+          if(res.data.code === 1) {
+            res.data.result.forEach(item => {
+              switch(item.TeamerStatus) {
+                case -1: item.TeamerStatus = '闲逛'; break;
+                case 0: item.TeamerStatus = '等待中'; break;
+                case 1: item.TeamerStatus = '游玩中'; break;
+              }
+            });
+            var TeamerInfo = [];
+            for(var i = 0; i < res.data.result.length; i++) {
+              if(res.data.result[i].TeamerID === this.VisitorID) {
+                this.myStatus = res.data.result[i]
+              }else {
+                TeamerInfo.push(res.data.result[i]);
+              }
+            }
+            this.membersList = TeamerInfo;
+            this.GroupID = res.data.result[0].GroupID;
+          }else {
+            MessageBox({
+              type: 'error',
+              message: '获取队伍信息失败\n' + res.data.errMsg
+            })
+          }
+        }).catch(e => {
+          MessageBox({
+            type: 'error',
+            message: '获取队伍信息失败\n' + e.message
+          })
+        });
+    },
     /**
      * @description 搜索游客并邀请组队
      */
@@ -196,6 +219,7 @@ export default {
           e.target.innerText = "已接受";
           e.target.parentNode.style.background = '#909399';
           e.target.parentNode.setAttribute('disabled', 'disabled');
+          this.getTeamerInfo();
           this.activeTab = 'info';
         }else {
           MessageBox({
@@ -223,24 +247,24 @@ export default {
      * @description 进入地图
      */
     map() {
-    //   this.$router.push({
-    //     name: 'Map',
-    //     params: {
-    //       GroupID: 
-    //     }
-    //   })
+      this.$router.push({
+        name: 'Map',
+        params: {
+          GroupID: !this.GroupID ? '' : this.GroupID
+        }
+      })
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
 .map{
   position: fixed;
   top: 0;
   right: 5px;
   z-index: 1000;
-  line-height: 3rem;
+  line-height: 4rem;
   font-size: 1.5rem;
   color: #409EFF;
 }
@@ -304,5 +328,8 @@ export default {
   line-height: 2;
   margin: 1vh 4vw;
   border-radius: 2vw;
+}
+.el-tabs__nav-wrap {
+  background-color: #fff !important;
 }
 </style>

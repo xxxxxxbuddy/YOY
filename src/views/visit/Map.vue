@@ -8,6 +8,7 @@
 <script>
 import Header from '@/components/header'
 import {MessageBox} from 'element-ui'
+var INTERVAL = '';
 
 /*  定义地图上对象类    */
 class Target {
@@ -86,36 +87,30 @@ export default {
   },
   data() {
     return {
-
+      MyPos: [],
+      GroupPos: []
     }
   },
   mounted() {
     let container = document.getElementsByClassName('map')[0];
-    let Target1 = null;
+    if(this.$route.params.GroupID !== '') {
+      this.getLocation(this.$route.params.GroupID, 'group');
+      this.revealOnMap(this.GroupPos, container);
+      INTERVAL = setInterval(() => {
+        this.getLocation(this.$route.params.GroupID, 'group');
+        this.revealOnMap(this.GroupPos, container);
+      }, 2000);
+    }else {
+      this.getLocation(window.sessionStorage.getItem('VisitorID'), 'individual');
+      this.revealOnMap(this.MyPos, container);
+      INTERVAL = setInterval(() => {
+        this.getLocation(window.sessionStorage.getItem('VisitorID'), 'individual');
+        this.revealOnMap(this.MyPos, container);
+      }, 2000);
+    }
+
     setInterval(() => {
-      this.$axios.get('/Amusement.svc/Group/GetLocation/V201905140001')
-        .then(res => {
-          if(res.data.code === 1) {
-            this.MyPos = res.data.result[0];
-            if(!Target1) {
-              Target1 = new Target(this.MyPos.X, this.MyPos.Y, '王翀', 'V201905140001');
-              Target1.drawTarget(container);
-            }else {
-              Target1.moveTo(this.MyPos.X, this.MyPos.Y);
-            }
-          }else {
-            MessageBox({
-              type: 'error',
-              message: '无法获取你的位置'
-            })
-          }
-        })
-        .catch(e => {
-          MessageBox({
-            type: 'error',
-            message: '获取位置失败,' + e.message
-          })
-        })
+      
     }, 2000);
     // var baseX = 1094;
     // var baseY = 32;
@@ -148,6 +143,74 @@ export default {
     //       })
     //     })
     // }
+  },
+  methods: {
+    getLocation(ID, type) {
+      if(type === 'group') {
+        this.$axios.get('/Amusement.svc/Group/GroupLocation/' + ID)
+          .then(res => {
+            if(res.data.code === 1) {
+              this.GroupPos = res.data.result;
+            }else {
+              if(this.GroupPos.length === 0) {
+                MessageBox({
+                  type: 'error',
+                  message: `无法获取位置\n${res.data.errMsg}`
+                });
+                clearInterval(INTERVAL);
+              }
+            }
+          })
+          .catch(e => {
+            MessageBox({
+              type: 'error',
+              message: '获取位置失败,' + e.message
+            });
+            clearInterval(INTERVAL);
+          })
+      }else {
+        this.$axios.get('/Amusement.svc/Group/GetLocation/' + ID)
+          .then(res => {
+            if(res.data.code === 1) {
+              this.MyPos = res.data.result;
+            }else {
+              if(!this.MyPos.length === 0) {
+                MessageBox({
+                  type: 'error',
+                  message: `无法获取位置\n${res.data.errMsg}`
+                });
+                clearInterval(INTERVAL);
+              }
+            }
+          })
+          .catch(e => {
+            MessageBox({
+              type: 'error',
+              message: '获取位置失败,' + e.message
+            });
+            clearInterval(INTERVAL);
+          })
+      }
+    },
+    revealOnMap(list, container) {
+      if(list.length === 1) { // 只有本人位置
+        if(!window.TargetMe) {
+          window.TargetMe = new Target(list[0].X, list[0].Y, list[0].Name, list[0].VisitorID);
+          window.TargetMe.drawTarget(container);
+        }else {
+          window.TargetMe.moveTo(list[0].X, list[0].Y);
+        }
+      } else { // 全部组员位置
+        for(let i = 0; i < list.length; i++) {
+          if(window['Target' + i]) {
+            window['Target' + i].moveTo(list[i].X, list[i].Y);
+          } else {
+            window['Target' + i] = new Target(list[i].X, list[i].Y, list[i].Name, list[i].VisitorID);
+            window['Target' + i].drawTarget(container);
+          }
+        }
+      }
+    }
   }
 }
 </script>

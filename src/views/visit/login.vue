@@ -111,14 +111,14 @@ export default {
                 this.loginning = false;
                 MessageBox({
                   type: 'error',
-                  message: '输入信息有误，登录失败'
+                  message: `输入信息有误，登录失败\n${res.data.errMsg}`
                 })
               }
             }).catch(e => {
               this.loginning = false;
               MessageBox({
                 type: 'error',
-                message: '网络错误，登录失败'
+                message: `网络错误，登录失败\n${e.message}`
               })
             })        
           } else {

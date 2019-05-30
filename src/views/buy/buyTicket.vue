@@ -89,7 +89,8 @@ export default {
       ],
       ticketNum: {
         T00001: 0,
-        T00002: 0
+        T00002: 0,
+        T00003: 0
       }
     };
   },
@@ -244,7 +245,7 @@ export default {
 }
 .tickets {
   width: 100%;
-  margin: 20px 0;
+  margin: 20px 0 15vh 0;
 }
 .ticket-type {
   height: 13vh;

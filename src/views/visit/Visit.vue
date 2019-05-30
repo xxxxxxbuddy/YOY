@@ -51,13 +51,12 @@
           <span class="no-item" v-if="noticeList.length === 0">暂无通知嗷ヾ(≧O≦)〃</span>
           <transition-group name="notice">
             <el-card v-for="item in noticeList" :key="item.NoticeID" class="notice-card">
-              <span class="title">{{item.NoticeTitle}}</span>
-              <span class="pub-time">{{item.NoticeTime}}</span>
-              <span class="content-time">时间: {{item.ContentTime}}</span>
-              <span class="address">地点: {{item.NoticeAddress}}</span>
+              <span class="title">{{item.NoticeType}}</span>
+              <span class="content-time">时间: {{item.OccurTime}}</span>
+              <span class="address">地点: {{item.OccurAddress}}</span>
               <div style="width: 100%">
                 <span class="info-label">描述:&nbsp;</span>
-                <span class="info">{{item.NoticeInfo}}</span>
+                <span class="info">{{item.NoticeDetail}}</span>
               </div>
             </el-card>
           </transition-group>
@@ -98,6 +97,14 @@ export default {
         LastGetTime: time
       }).then(res => {
         if(res.data.code === 1) {
+          res.data.result.forEach(item => {
+            switch(item.NoticeType) {
+              case 0: item.NoticeType = '寻人通知'; break;
+              case 1: item.NoticeType = '寻物通知'; break;
+              case 2: item.NoticeType = '活动通知'; break;
+              case 3: item.NoticeType = '园内提醒'; break;
+            }
+          })
           this.noticeList.unshift(...res.data.result);
           freshTime = new Date();
         } else {

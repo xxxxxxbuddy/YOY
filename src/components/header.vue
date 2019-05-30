@@ -1,5 +1,5 @@
 <template>
-    <div style="padding-top: 3rem;">
+    <div style="padding-top: 4rem;">
         <div class="header">
           <i class="el-icon-arrow-left back" @click="goBack"></i>
           <span class="last-page" @click="goBack">{{lastPage}}</span>
@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .header{
-  height: 3rem;
+  height: 4rem;
   width: 100%;
   position: fixed;
   top: 0;
@@ -47,18 +47,18 @@ export default {
   position: absolute;
   left: 5px;
   z-index: 2;
-  line-height: 3rem;
+  line-height: 4rem;
   font-size: 1.5rem;
   padding: 0.25rem;
 }
 .last-page{
   position: absolute;
   left: 2.9rem;
-  line-height: 3rem;
+  line-height: 4rem;
 }
 .title{
   display: inline-block;
-  line-height: 3rem;
+  line-height: 4rem;
   margin-left: 50%;
   transform: translateX(-50%);
   font-weight: bold;

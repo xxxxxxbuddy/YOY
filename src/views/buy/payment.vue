@@ -154,7 +154,7 @@ export default {
           } else {
             MessageBox({
               type: 'error',
-              message: '支付失败'
+              message: `支付失败 ${res.data.errMsg}`
             })
           }
         }).catch(e => {

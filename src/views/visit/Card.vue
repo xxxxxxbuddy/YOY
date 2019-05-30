@@ -98,7 +98,8 @@ export default {
             MessageBox({
               type: 'success',
               message: `充值成功！本次充值${this.money}元`
-            })
+            });
+            this.Balance += this.money;
           }else {
             MessageBox({
               type: 'error',
@@ -127,7 +128,8 @@ export default {
             MessageBox({
               type: 'success',
               message: '退款成功'
-            })
+            });
+            this.Balance -= this.money;
           }else {
             MessageBox({
               type: 'error',

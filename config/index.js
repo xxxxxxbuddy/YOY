@@ -16,10 +16,14 @@ module.exports = {
         changeOrigin: true
       },
       '/Amusement.svc': {
-        target: 'http://39.98.221.147:8009',          // 'http://192.168.0.254:7524',
+        target: 'http://39.98.221.147:8009',          // 'http://39.98.221.147:8009',
         changeOrigin: true
       },
       '/CardManagement.svc': {
+        target: 'http://39.98.221.147:8009',
+        changeOrigin: true
+      },
+      '/NoticeManagement.svc': {
         target: 'http://39.98.221.147:8009',
         changeOrigin: true
       }
