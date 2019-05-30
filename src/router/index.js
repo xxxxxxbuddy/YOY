@@ -96,6 +96,21 @@ const router = new Router({
       path: '/DeviceNotSupport',
       name: 'DeviceNotSupport',
       component: resolve => require(['../views/DeviceNotSupport.vue'], resolve)
+    },
+    {
+      path: '/Card',
+      name: 'Card',
+      component: resolve => require(['../views/visit/Card.vue'], resolve)
+    },
+    {
+      path: '/HistoryRecord',
+      name: 'HistoryRecord',
+      component: resolve => require(['../views/visit/HistoryRecord.vue'], resolve)
+    },
+    {
+      path: '/Notice',
+      name: 'Notice',
+      component: resolve => require(['../views/visit/Notice.vue'], resolve)
     }
   ]
 })

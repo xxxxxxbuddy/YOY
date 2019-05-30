@@ -19,7 +19,7 @@
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-meishi"></use>
               </svg>
-              <span>美食推荐</span>
+              <span>店铺推荐</span>
           </div>
           <div class="option" @click="Team">
               <svg class="icon" aria-hidden="true">
@@ -33,11 +33,17 @@
               </svg>
               <span>我的订单</span>
           </div>
-          <div class="option" @click="Route">
+          <div class="option" @click="Card">
               <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-yue"></use>
+                <use xlink:href="#icon-qia"></use>
               </svg>
-              <span>余额</span>
+              <span>卡管理</span>
+          </div>
+          <div class="option" @click="Notice">
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-tongzhi"></use>
+              </svg>
+              <span>通知</span>
           </div>
         </div>
 
@@ -140,6 +146,20 @@ export default {
      */
     Order() {
       this.$router.push('MyOrder')
+    },
+
+    /**
+     * @description 卡管理
+     */
+    Card() {
+      this.$router.push('Card')
+    },
+
+    /**
+     * @description 通知
+     */
+    Notice() {
+      this.$router.push('Notice')
     }
   },
   beforeDestroy() {

@@ -91,10 +91,36 @@ export default {
   },
   mounted() {
     let container = document.getElementsByClassName('map')[0];
-    var baseX = 1094;
-    var baseY = 32;
-    let Target1 = new Target(baseX, baseY, "张雷", "V12314");
-    Target1.drawTarget(container);
+    let Target1 = null;
+    setInterval(() => {
+      this.$axios.get('/Amusement.svc/Group/GetLocation/V201905140001')
+        .then(res => {
+          if(res.data.code === 1) {
+            this.MyPos = res.data.result[0];
+            if(!Target1) {
+              Target1 = new Target(this.MyPos.X, this.MyPos.Y, '王翀', 'V201905140001');
+              Target1.drawTarget(container);
+            }else {
+              Target1.moveTo(this.MyPos.X, this.MyPos.Y);
+            }
+          }else {
+            MessageBox({
+              type: 'error',
+              message: '无法获取你的位置'
+            })
+          }
+        })
+        .catch(e => {
+          MessageBox({
+            type: 'error',
+            message: '获取位置失败,' + e.message
+          })
+        })
+    }, 2000);
+    // var baseX = 1094;
+    // var baseY = 32;
+    // let Target1 = new Target(baseX, baseY, "张雷", "V12314");
+    // Target1.drawTarget(container);
     // setInterval(() => {
     //   baseX += 20;
     //   baseY += 20;

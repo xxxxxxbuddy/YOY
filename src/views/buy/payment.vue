@@ -61,15 +61,15 @@ export default {
       paymentWays: [
         {
           id: 0,
-          icon: require("../../assets/images/wechatPay.png"),
-          name: "微信支付",
-          activity: "工行信用卡支付，享随机立减"
-        },
-        {
-          id: 1,
           icon: require("../../assets/images/AliPay.png"),
           name: "支付宝",
           activity: "支付订单，赢1999元红包"
+        },
+        {
+          id: 1,
+          icon: require("../../assets/images/wechatPay.png"),
+          name: "微信支付",
+          activity: "工行信用卡支付，享随机立减"
         },
         {
           id: 2,

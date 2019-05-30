@@ -236,13 +236,12 @@ export default {
 
 <style scoped>
 .map{
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 5px;
   z-index: 1000;
   line-height: 3rem;
   font-size: 1.5rem;
-  padding: 0.25rem 0.5rem;
   color: #409EFF;
 }
 .no-item{
