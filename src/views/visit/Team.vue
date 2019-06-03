@@ -1,7 +1,7 @@
 <template>
     <div style="background-color: rgba(153, 153, 153, 0.19);height: 100%;min-height: 100vh">
         <Header title="队伍管理"></Header>
-        <div class="map" @click="map">地图</div>
+        <div class="map-button" @click="map">地图</div>
 
         <div class="invite" :style="'transform: ' + showInvite">
           <div class="search">
@@ -25,7 +25,7 @@
         <el-tabs v-model="activeTab" stretch>
             <el-tab-pane label="队员信息" name="info" class="member-info" >
                 <el-card class="member-card" style="position: relative">
-                  <el-button type="danger" style="position: absolute;right: 2vw;top: 2vh;">退出</el-button>
+                  <el-button type="danger" style="position: absolute;right: 2vw;top: 2vh;" @click="quit">退出</el-button>
                   <span>我</span><br>
                   <span>ID:{{VisitorID}}</span><br>
                   <span>游客状态：{{myStatus.TeamerStatus}}</span><br>
@@ -43,12 +43,12 @@
             <el-tab-pane label="组队消息" name="message">
                 <span class="no-item" v-if="inviteList.length === 0">暂无组队邀请</span>
                 <transition-group name="invite-card">
-                    <el-card v-for="item in inviteList" :key="item.InvitorID" class="invite-card" shadow="never">
+                    <el-card v-for="item in inviteList" :key="item.InviterID" class="invite-card" shadow="never">
                         <div style="padding: 2vw">
-                            游客ID为{{item.InvitorID}}的{{item.InvitorName}}先生/女士邀请您加入群组<br>共享位置信息，一起游玩！
+                            游客ID为{{item.InviterID}}的{{item.InviterName}}先生/女士邀请您加入群组<br>共享位置信息，一起游玩！
                         </div>
-                        <el-button type="success" round style="margin-left: 10%" @click='confirm' :data-id="item.InvitorID">接受</el-button>
-                        <el-button type="danger" round style="margin-left: 37%" @click="decline" :data-id="item.InvitorID">忽略</el-button>
+                        <el-button type="success" round style="margin-left: 10%" @click='confirm' :data-id="item.InviterID">接受</el-button>
+                        <el-button type="danger" round style="margin-left: 37%" @click="decline" :data-id="item.InviterID">忽略</el-button>
                     </el-card>
                 </transition-group>
             </el-tab-pane>
@@ -123,24 +123,25 @@ export default {
     getTeamerInfo() {
       this.$axios.get('/Amusement.svc/Group/TeamerInfo/' + this.VisitorID)
         .then(res => {
+          console.log(res)
           if(res.data.code === 1) {
-            res.data.result.forEach(item => {
-              switch(item.TeamerStatus) {
-                case -1: item.TeamerStatus = '闲逛'; break;
-                case 0: item.TeamerStatus = '等待中'; break;
-                case 1: item.TeamerStatus = '游玩中'; break;
-              }
-            });
             var TeamerInfo = [];
-            for(var i = 0; i < res.data.result.length; i++) {
-              if(res.data.result[i].TeamerID === this.VisitorID) {
-                this.myStatus = res.data.result[i]
-              }else {
-                TeamerInfo.push(res.data.result[i]);
+            if(res.data.result) {
+              for(var i = 0; i < res.data.result.length; i++) {
+                switch(res.data.result[i].TeamerStatus) {
+                  case -1: res.data.result[i].TeamerStatus = '闲逛中'; break;
+                  case 0: res.data.result[i].TeamerStatus = '项目等待中'; break;
+                  case 1: res.data.result[i].TeamerStatus = `${res.data.result[i].ProjectName}游玩中`; break;
+                }
+                if(res.data.result[i].TeamerID === this.VisitorID) {
+                  this.myStatus = res.data.result[i]
+                }else {
+                  TeamerInfo.push(res.data.result[i]);
+                }
               }
+              this.GroupID = res.data.result[0].GroupID;
             }
-            this.membersList = TeamerInfo;
-            this.GroupID = res.data.result[0].GroupID;
+            this.membersList = TeamerInfo;  
           }else {
             MessageBox({
               type: 'error',
@@ -148,6 +149,7 @@ export default {
             })
           }
         }).catch(e => {
+          console.log(e)
           MessageBox({
             type: 'error',
             message: '获取队伍信息失败\n' + e.message
@@ -195,7 +197,7 @@ export default {
       e.target.innerText = "已邀请";
       e.target.parentNode.style.background = '#909399';
       e.target.parentNode.setAttribute('disabled', 'disabled');
-      this.$axios.post('/Amusement.svc/Group/ Invite', {
+      this.$axios.post('/Amusement.svc/Group/Invite', {
         InviterID: this.VisitorID,
         InviteeID: e.target.parentNode.dataset.id
       }).then(res => {
@@ -226,7 +228,7 @@ export default {
         }else {
           MessageBox({
             type: 'error',
-            message: '加入失败'
+            message: '加入失败' + res.data.errMsg
           });
         }
       })
@@ -252,8 +254,25 @@ export default {
       this.$router.push({
         name: 'Map',
         params: {
-          GroupID: !this.GroupID ? '' : this.GroupID
+          GroupID: (!this.GroupID && this.membersList.length > 0) ? '' : this.GroupID
         }
+      })
+    },
+    quit() {
+      this.$axios.get('/Amusement.svc/Group/Exit/' + this.VisitorID).then(res => {
+        if(res.data.code === 1) {
+          this.getTeamerInfo();
+        }else {
+          MessageBox({
+            type: 'error',
+            message: '退出队伍失败，' + res.data.errMsg
+          })
+        }
+      }).catch(e => {
+        MessageBox({
+          type: 'error',
+          message: '退出队伍失败，' + e.message
+        })
       })
     }
   }
@@ -261,7 +280,7 @@ export default {
 </script>
 
 <style>
-.map{
+.map-button{
   position: fixed;
   top: 0;
   right: 5px;

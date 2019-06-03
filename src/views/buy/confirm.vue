@@ -1,5 +1,5 @@
 <template>
-    <div class="container" style="background-color: rgba(153, 153, 153, 0.19);height: 100%;min-height: 100vh">
+    <div class="container" style="background-color: rgba(153, 153, 153, 0.19);height: 100%;min-height: 100vh;position: relative">
         <Header title="提交订单"></Header>
 
         <div class="tickets">
@@ -28,7 +28,7 @@
                 </el-form-item>
                 <el-form-item label="手机号码" prop="PhoneNumber" style="white-space: nowrap;">
                     <el-input v-model="infoForm.PhoneNumber" style="width: 32vw"></el-input>
-                    <el-button type="primary" round>发送验证码</el-button>
+                    <button class="verify">发送验证码</button>
                 </el-form-item>
                 <el-form-item label="验证码" prop="VerifyNumber">
                     <el-input v-model="infoForm.VerifyNumber"></el-input>
@@ -237,7 +237,7 @@ export default {
     width: 80vw;
 }
 .tip{
-  position: fixed;
+  position: absolute;
   bottom: 7vh;
   width: 100%;
   text-align: center;
@@ -266,5 +266,15 @@ export default {
   width: 40%;
   font-size: 1.25rem;
   border-radius: 0;
+}
+.verify{
+  box-sizing: border-box;
+  height: 2.5rem;
+  width: 8rem;
+  margin: 0 1vw;
+  background-color: #409EFF;
+  border-radius: 1rem;
+  border: 0;
+  color: #fff;
 }
 </style>

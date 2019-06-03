@@ -9,7 +9,7 @@
             <span class="price">￥{{item.TicketPrice}}</span>
           </div>
           <div class="info">
-            <el-button type="primary" round @click="Refund" :data-id="item.OrderID">退票</el-button>
+            <el-button type="primary" round @click.stop="Refund" :data-id="item.OrderID">退票</el-button>
             <span>游客ID：{{item.VisitorID}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <span>{{item.TicketName}}</span><br>
             <span>游园密码：{{item.Password}}</span>
@@ -130,11 +130,19 @@ export default {
   },
   methods: {
     Refund(e) {
-      this.$axios.get(`/TicketPurchase.svc/Refund/${e.target.dataset.id}`).then(res => {
+      this.$axios.get(`/TicketPurchase.svc/Refund/${(!e.target.dataset.id ? e.target.parentElement.dataset.id : e.target.dataset.id)}`).then(res => {
         if(res.data.code === 1) {
-          e.target.innerText = "已退票";
-          e.target.parentNode.style.background = '#909399';
-          e.target.parentNode.setAttribute('disabled', 'disabled');
+          if(e.target.nodeName.toLowerCase() === 'span') {
+            e.target.innerText = "已退票";
+            e.target.parentElement.style.background = '#909399';
+            e.target.parentElement.style.border = 'none';
+            e.target.parentElement.setAttribute('disabled', 'disabled');
+          }else {
+            e.target.innerText = "已退票";
+            e.target.style.background = '#909399';
+            e.target.style.border = 'none';
+            e.target.setAttribute('disabled', 'disabled');
+          }
         }else {
           MessageBox({
             type: 'error',
@@ -170,9 +178,11 @@ export default {
   margin: 1vh 0;
   font-size: 1.25rem;
   line-height: 2;
+  position: relative;
 }
 .info button{
-  float: right;
-  margin-right: 7vw;
+  position: absolute;
+  right: 2vw;
+  top: 0;
 }
 </style>

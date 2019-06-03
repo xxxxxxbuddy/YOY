@@ -99,6 +99,7 @@ export default {
                 'AutomaticDecompression': 'DecompressionMethods.GZip'
               }
             }).then(res => {
+              this.loginning = false;
               if(res.data.code === 1) {
                 window.sessionStorage.setItem('VisitorID', this.loginForm.Account);
                 this.$router.push({

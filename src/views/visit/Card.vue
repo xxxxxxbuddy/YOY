@@ -35,7 +35,7 @@
           </div>
         </el-radio-group>
       </div>
-      <div style="text-align: center;width: 100%">
+      <div class="card-handler" style="text-align: center;width: 100%">
         <el-button type="primary" round size="large" @click="Topup">充值</el-button>
         <el-button round @click="Refund">领款</el-button>
       </div>
@@ -160,9 +160,19 @@ export default {
         .then(res => {
           console.log(res.data)
           if(res.data.code === 1) {
-            this.Balance = res.data.result[0].Balance;
-            this.UID = res.data.result[0].UID;
-            this.Name = res.data.result[0].Name;
+            if(res.data.result.length !== 0) {
+              this.Balance = res.data.result[0].Balance;
+              this.UID = res.data.result[0].UID;
+              this.Name = res.data.result[0].Name;
+            }else {
+              MessageBox({
+                type: 'info',
+                message: '请先绑定卡',
+                callback: () => {
+                  this.$router.go(-1);
+                }
+              })
+            }
           }
         })
     }
@@ -176,7 +186,7 @@ export default {
   top: 0;
   right: 5px;
   z-index: 1000;
-  line-height: 3rem;
+  line-height: 4rem;
   font-size: 1.25rem;
 }
 .header {
@@ -288,7 +298,7 @@ export default {
   line-height: 8vw;
   vertical-align: bottom;
 }
-.el-button.is-round {
+.card-handler .el-button.is-round {
   border-radius: 6vw;
   padding: 4vw 15vw;
   font-size: 1.75rem;

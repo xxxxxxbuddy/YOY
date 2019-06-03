@@ -215,7 +215,7 @@ export default {
   margin: 20px 0 15vh 0;
 }
 .ticket-type {
-  height: 13vh;
+  height: 15vh;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
   margin: 2vw 0;
 }

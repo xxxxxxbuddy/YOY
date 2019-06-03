@@ -1,10 +1,10 @@
 <template>
     <div style="background-color: rgba(153, 153, 153, 0.19);height: 100%;min-height: 100vh">
         <Header title="确认订单"></Header>
-        <div class="order-detail">
-          <span class="store-name">桃花阉饮吧</span>
-          <div v-for="item in foodList" :key="item.CommodityID" class="food">
-            <img class="image" src="@/assets/images/FoodBG.jpg">
+        <div class="order-detail" v-for="store in sortedList" :key="store.StoreID">
+          <span class="store-name">{{store[0].StoreName}}</span>
+          <div v-for="item in store" :key="item.CommodityID" class="food">
+            <img class="image" :src="require('@/assets/images/' + item.CommodityPic)">
             <span class="food-name">{{item.CommodityName}}</span>
             <span class="food-price">￥{{item.CommodityPrice}}</span><br>
             <span class="food-description">描述：{{item.CommodityInfo}}</span>
@@ -31,10 +31,19 @@ export default {
   },
   data() {
     return {
-
+      sortedList: {}
     }
   },
   created() {
+    if(this.$route.params.FoodList) {
+      this.$route.params.FoodList.forEach(item => {
+        if(!this.sortedList[item.StoreID]) {
+          this.sortedList[item.StoreID] = [item];
+        } else {
+          this.sortedList[item.StoreID].push(item);
+        }
+      })
+    }
     this.foodList = this.$route.params.FoodList;
     this.totalPrice = this.$route.params.totalPrice;
     this.pieces = this.$route.params.pieces;
@@ -57,7 +66,7 @@ export default {
             type: 'success',
             message: '支付成功',
             callback: () => {
-              this.$route.push('MyOrder')
+              this.$router.push('MyOrder')
             }
           })
         }else {

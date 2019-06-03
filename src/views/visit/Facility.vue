@@ -8,7 +8,7 @@
                     <img class="image" :src="require(`@/assets/images/${item.ProjectPic}`)">
                     <div style="margin-left: 35vw">
                         <span class="name">{{item.ProjectName}}</span><br>
-                        <span class="info">{{item.Record}}m</span>
+                        <span class="info">{{parseInt(item.Record)}}m</span>
                         <span>开放时间：{{item.OpeningTime}}</span><br>
                         <span>适合人群：{{item.ProjectForPeople}}</span><br>
                         <i class="el-icon-star-on" style="color: rgba(255, 141, 26, 1)"></i>
@@ -23,7 +23,7 @@
                     <img class="image" :src="require(`@/assets/images/${item.ProjectPic}`)">
                     <div style="margin-left: 35vw">
                         <span class="name">{{item.ProjectName}}</span><br>
-                        <span class="info">约等待{{item.Record}}分钟</span>
+                        <span class="info">约等待{{parseInt(item.Record)}}分钟</span>
                         <span>开放时间：{{item.OpeningTime}}</span><br>
                         <span>适合人群：{{item.ProjectForPeople}}</span><br>
                         <i class="el-icon-star-on" style="color: rgba(255, 141, 26, 1)"></i>

@@ -2,7 +2,7 @@
   <div style="background-color: rgba(153, 153, 153, 0.19);height: 100%;min-height: 100vh">
     <div class="mask" v-show="payed"></div>
     <Header title="订单支付"></Header>
-    <div v-loading="paying" style="height: 100%">
+    <div v-loading="paying" class="container">
       <div class="payment-info">
         <div class="price">
           <span>在线支付：</span>
@@ -46,6 +46,7 @@
 <script>
 import { MessageBox } from "element-ui";
 import Header from "../../components/header";
+import {formatDate} from '@/util/format'
 
 export default {
   components: {
@@ -140,7 +141,7 @@ export default {
             UID: this.$route.params.userInfo.UID,
             Name: this.$route.params.userInfo.Name
           },
-          DoneTime: this.$route.params.orderDate.toLocaleDateString().replace(/\//g, '-'),
+          DoneTime: formatDate(this.$route.params.orderDate, 'yyyy-MM-dd'),
           PaymentType: this.waysRatio,
           orders: orders,
           VerificationCode: this.$route.params.userInfo.VerifyNumber
@@ -181,7 +182,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='less'>
 .payment-info,
 .payment-ways {
   background-color: #fff;
@@ -246,21 +247,21 @@ export default {
   line-height: 8vw;
   vertical-align: bottom;
 }
-.el-button.is-round {
+/deep/ .el-button.is-round {
   border-radius: 6vw;
   padding: 4vw 15vw;
   font-size: 1.75rem;
 }
-.el-radio {
+/deep/ .el-radio {
   float: right;
   margin-right: 2vw;
   line-height: 8vw;
 }
-.el-radio__inner {
+/deep/ .el-radio__inner {
   height: 6vw;
   width: 6vw;
 }
-.el-radio__inner::after {
+/deep/ .el-radio__inner::after {
   width: 2vw !important;
   height: 2vw !important;
 }
@@ -292,5 +293,9 @@ export default {
   bottom: 2vh;
   left: 50%;
   transform: translateX(-50%);
+}
+.container{
+  height: 100%;
+  min-height: 100vh - 4rem;
 }
 </style>

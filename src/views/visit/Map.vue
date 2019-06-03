@@ -173,6 +173,7 @@ export default {
           .then(res => {
             if(res.data.code === 1) {
               this.MyPos = res.data.result;
+              this.MyPos[0].name = '我';
             }else {
               if(!this.MyPos.length === 0) {
                 MessageBox({

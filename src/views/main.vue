@@ -43,8 +43,8 @@ export default {
   methods: {
     buyTicket() {
       this.showTicket = 0;
-      this.transform1 = "-100%";
-      this.transform2 = "100%";
+      this.transform1 = "-80%";
+      this.transform2 = "80%";
       setTimeout(() => {
         this.display1 = "none";
         this.display2 = "block";

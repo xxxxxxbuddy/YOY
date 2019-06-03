@@ -3,7 +3,8 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-
+const remoteUrl = 'http://39.98.221.147:8009';
+const localUrl = 'http://192.168.0.254:7524'
 module.exports = {
   dev: {
 
@@ -11,24 +12,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/TicketPurchase.svc': {
-        target: 'http://39.98.221.147:8009',
-        changeOrigin: true
-      },
-      '/Amusement.svc': {
-        target: 'http://39.98.221.147:8009',          // 'http://39.98.221.147:8009',
-        changeOrigin: true
-      },
-      '/CardManagement.svc': {
-        target: 'http://39.98.221.147:8009',
-        changeOrigin: true
-      },
-      '/NoticeManagement.svc': {
-        target: 'http://39.98.221.147:8009',
-        changeOrigin: true
-      },
-      '/Recommendation.svc': {
-        target: 'http://39.98.221.147:8009',
+      '/': {
+        target: remoteUrl,
         changeOrigin: true
       }
     },

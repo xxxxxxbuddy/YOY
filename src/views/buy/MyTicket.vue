@@ -33,9 +33,11 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div class="login" @click="login">
+        <div>
+          <div class="myticket-login" @click="login">
           <img src="@/assets/images/login.png" alt="登录">
           <i class="el-icon-right"></i>
+        </div>
         </div>
  </div>
 </template>
@@ -187,18 +189,19 @@ export default {
 .el-form-item {
   width: 80vw;
 }
-.login {
+.myticket-login {
   border-radius: 10vw;
   height: 6rem;;
   background-color: rgba(131, 203, 253, 1);
   width: 90vw;
-  margin: 0 auto;
+  margin: 2vh 5vw;
+  float: left;
 }
-.login img{
+.myticket-login img{
   height: 6rem;
   vertical-align: bottom;
 }
-.login i{
+.myticket-login i{
   line-height: 6rem;
   font-size: 6rem;
   color: #fff;

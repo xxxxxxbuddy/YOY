@@ -26,7 +26,7 @@
                 <transition-group name="notice">
                   <el-card v-for="item in noticeList" :key="item.NoticeID" class="notice-card">
                     <span class="notice-type">{{item.NoticeType}}</span>
-                    <el-button type="danger" round @click="deleteNotice" :data-id="item.NoticeID">删除</el-button>
+                    <button  @click="deleteNotice" :data-id="item.NoticeID">删除</button>
                     <span class="notice-status">{{item.NoticeStatus}}</span>
                     <span class="content-time">时间: {{item.OccurTime}}</span>
                     <span class="address">地点: {{item.OccurAddress}}</span>
@@ -149,12 +149,11 @@ export default {
     deleteNotice(e) {
       this.$axios.post('/NoticeManagement.svc/DelMyNotice', {
         VisitorID: window.sessionStorage.getItem('VisitorID'),
-        NoticeID: e.target.parentElement.dataset.id
+        NoticeID: e.target.dataset.id
       })
         .then(res => {
           if(res.data.code === 1) {
-            e.target.parentElement.classList.add('useless-button')
-            e.target.parentElement.setAttribute('disabled', 'disabled');
+            this.getMyNotice();
           }else{
             MessageBox({
               type: 'info',
@@ -248,10 +247,13 @@ form label{
 .notice-card button{
   box-sizing: border-box;
   height: 2.5rem;
+  width: 4rem;
+  background-color: #F56C6C;
+  border-radius: 4px;
+  border: 0;
+  color: #fff;
 }
-.notice-card .el-button--small, .notice-card .el-button--small.is-round {
-  padding: 0px 15px;
-}
+
 .useless-button{
   border-color: #909399 !important;
   background-color: #909399 !important;
