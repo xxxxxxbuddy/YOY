@@ -8,8 +8,8 @@
             <span>游玩日期：{{baseDate.date}} {{baseDate.day}}</span>
           </div>
           <div class="ticket-type" v-for="item in ticketsType" :key="item.TicketID">
-              <img class="ticket-image" src="../../assets/images/adult.png" alt> 
-              <!-- :src="require('../assets/images/' + item.TicketPic)" -->
+              <img class="ticket-image" :src="require('@/assets/images/' + item.TicketPic)" alt> 
+              
               <span class="ticket-name">{{item.TicketName}}</span>
               <span class="ticket-num">X{{ticketNum[item.TicketID]}}</span>
               <span class="ticket-description">{{item.TicketInfo}}</span>
@@ -51,7 +51,7 @@
 
 <script>
 import { MessageBox } from 'element-ui';
-import Header from '../../components/header';
+import Header from '@/components/header';
 
 export default {
   components: {

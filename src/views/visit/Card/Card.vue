@@ -56,19 +56,19 @@ export default {
       paymentWays: [
         {
           id: 0,
-          icon: require("../../assets/images/AliPay.png"),
+          icon: require("@/assets/images/AliPay.png"),
           name: "支付宝",
           activity: "支付订单，赢1999元红包"
         },
         {
           id: 1,
-          icon: require("../../assets/images/wechatPay.png"),
+          icon: require("@/assets/images/wechatPay.png"),
           name: "微信支付",
           activity: "工行信用卡支付，享随机立减"
         },
         {
           id: 2,
-          icon: require("../../assets/images/VisaPay.png"),
+          icon: require("@/assets/images/VisaPay.png"),
           name: "银联在线支付",
           activity: ""
         }
@@ -196,7 +196,7 @@ export default {
   background-color: rgba(131, 203, 253, 1);
 }
 .bg {
-  background: url("../../assets/images/LOGO.png");
+  background: url("../../../assets/images/LOGO.png");
   height: 31vh;
   width: 100%;
   z-index: -1;

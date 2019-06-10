@@ -15,27 +15,27 @@ const router = new Router({
     {
       path: '/BuyTicket',
       name: 'BuyTicket',
-      component: resolve => require(['../views/buy/BuyTicket.vue'], resolve)
+      component: resolve => require(['@/views/buy/NewTickets/BuyTicket.vue'], resolve)
     },
     {
       path: '/AvailTickets',
       name: 'AvailTickets',
-      component: resolve => require(['../views/buy/AvailTickets.vue'], resolve)
+      component: resolve => require(['@/views/buy/MyTickets/AvailTickets.vue'], resolve)
     },
     {
       path: '/MyTicket',
       name: 'MyTicket',
-      component: resolve => require(['../views/buy/MyTicket.vue'], resolve)
+      component: resolve => require(['@/views/buy/MyTickets/MyTicket.vue'], resolve)
     },
     {
       path: '/confirm',
       name: 'confirm',
-      component: resolve => require(['../views/buy/confirm.vue'], resolve)
+      component: resolve => require(['@/views/buy/NewTickets/confirm.vue'], resolve)
     },
     {
       path: '/payment',
       name: 'payment',
-      component: resolve => require(['../views/buy/payment.vue'], resolve)
+      component: resolve => require(['@/views/buy/NewTickets/payment.vue'], resolve)
     },
     {
       path: '/VisitorLogin',
@@ -50,7 +50,7 @@ const router = new Router({
     {
       path: '/Route',
       name: 'Route',
-      component: resolve => require(['../views/visit/Route.vue'], resolve)
+      component: resolve => require(['../views/visit//Route/Route.vue'], resolve)
     },
     {
       path: '/Team',
@@ -60,7 +60,7 @@ const router = new Router({
     {
       path: '/RouteDetail',
       name: 'RouteDetail',
-      component: resolve => require(['../views/visit/RouteDetail.vue'], resolve)
+      component: resolve => require(['../views/visit/Route/RouteDetail.vue'], resolve)
     },
     {
       path: '/Facility',
@@ -70,17 +70,17 @@ const router = new Router({
     {
       path: '/Food',
       name: 'Food',
-      component: resolve => require(['../views/visit/Food.vue'], resolve)
+      component: resolve => require(['../views/visit/Store/Food.vue'], resolve)
     },
     {
       path: '/Store',
       name: 'Store',
-      component: resolve => require(['../views/visit/Store.vue'], resolve)
+      component: resolve => require(['../views/visit/Store/Store.vue'], resolve)
     },
     {
       path: '/Order',
       name: 'Order',
-      component: resolve => require(['../views/visit/Order.vue'], resolve)
+      component: resolve => require(['../views/visit/Store/Order.vue'], resolve)
     },
     {
       path: '/MyOrder',
@@ -100,12 +100,12 @@ const router = new Router({
     {
       path: '/Card',
       name: 'Card',
-      component: resolve => require(['../views/visit/Card.vue'], resolve)
+      component: resolve => require(['../views/visit/Card/Card.vue'], resolve)
     },
     {
       path: '/HistoryRecord',
       name: 'HistoryRecord',
-      component: resolve => require(['../views/visit/HistoryRecord.vue'], resolve)
+      component: resolve => require(['../views/visit/Card/HistoryRecord.vue'], resolve)
     },
     {
       path: '/Notice',

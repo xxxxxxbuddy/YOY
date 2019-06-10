@@ -10,11 +10,11 @@
           <div class="title">游无忧游乐园</div>
           <div class="tips">入园须知</div>
           <div class="time">
-            <img src="../../assets/images/time.svg" alt>
+            <img :src="require('@/assets/images/time.svg')" alt>
             开放时间 9:30-21:30
           </div>
           <div class="address">
-            <img src="../../assets/images/address.svg" alt>
+            <img :src="require('@/assets/images/address.svg')" alt>
             湖北·武汉市·关山大道
           </div>
         </div>
@@ -135,7 +135,7 @@ export default {
   position: relative;
 }
 .bg {
-  background: url("../../assets/images/buyTicketBG.jpg");
+  background: url("../../../assets/images/buyTicketBG.jpg");
   height: 31vh;
   width: 100%;
   z-index: -1;

@@ -5,19 +5,19 @@
       </div>
        <swiper :options="swiperOption" ref="mySwiper">
           <swiper-slide>
-              <img src="../../assets/images/swipeImg1.jpg" class="swiper" >
+              <img :src="require('@/assets/images/swipeImg1.jpg')" class="swiper" >
           </swiper-slide>
           <swiper-slide>
-              <img src="../../assets/images/swipeImg2.jpg" class="swiper" >
+              <img :src="require('@/assets/images/swipeImg2.jpg')" class="swiper" >
           </swiper-slide>
           <swiper-slide>
-              <img src="../../assets/images/swipeImg3.jpg" class="swiper" >
+              <img :src="require('@/assets/images/swipeImg3.jpg')" class="swiper" >
           </swiper-slide>
           <swiper-slide>
-              <img src="../../assets/images/swipeImg4.jpg" class="swiper" >
+              <img :src="require('@/assets/images/swipeImg4.jpg')" class="swiper" >
           </swiper-slide>
           <swiper-slide>
-              <img src="../../assets/images/swipeImg5.jpg" class="swiper" >
+              <img :src="require('@/assets/images/swipeImg5.jpg')" class="swiper" >
           </swiper-slide>
         <!-- Optional controls -->
           <div class="swiper-pagination" slot="pagination"></div>
@@ -35,7 +35,7 @@
         </div>
         <div>
           <div class="myticket-login" @click="login">
-          <img src="@/assets/images/login.png" alt="登录">
+          <img :src="require('@/assets/images/login.png')" alt="登录">
           <i class="el-icon-right"></i>
         </div>
         </div>
