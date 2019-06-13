@@ -25,7 +25,7 @@ export default {
       storeList: []
     }
   },
-  mounted() {
+  activated() {
     this.$axios.get('/Recommendation.svc/GetStoreInfo')
       .then(res => {
         if(res.data.code === 1) {

@@ -8,7 +8,7 @@
             <span>游玩日期：{{baseDate.date}} {{baseDate.day}}</span>
           </div>
           <div class="ticket-type" v-for="item in ticketsType" :key="item.TicketID">
-              <img class="ticket-image" :src="require('@/assets/images/' + item.TicketPic)" alt> 
+              <img class="ticket-image" :src="item.TicketPic" alt> 
               
               <span class="ticket-name">{{item.TicketName}}</span>
               <span class="ticket-num">X{{ticketNum[item.TicketID]}}</span>

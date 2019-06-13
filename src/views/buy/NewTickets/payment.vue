@@ -92,7 +92,7 @@ export default {
       this.$router.push('/');
     }
   },
-  mounted() {
+  activated() {
     // 倒计时
     if (this.$route.params.time !== undefined) {
       var intervalID = setInterval(() => {

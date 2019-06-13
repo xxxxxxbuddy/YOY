@@ -7,17 +7,17 @@
 	- webpack
 	- less
 2.	安装
-项目地址( git clone )
-`git clone https://github.com/xxxxxxbuddy/YOY.git`
+    项目地址( git clone )
+    `git clone https://github.com/xxxxxxbuddy/YOY.git`
 
-通过npm安装本地服务第三方依赖模块(需要已安装Node.js)
-`npm install`
+    通过npm安装本地服务第三方依赖模块(需要已安装Node.js)
+    `npm install`
 
-启动服务: (http://localhost:8080)
-`npm run dev`
+    启动服务: (http://localhost:8080)
+    `npm run dev`
 
-发布代码
-`npm run build`
+    发布代码
+    `npm run build`
 
 3.	功能
 	-	购票系统

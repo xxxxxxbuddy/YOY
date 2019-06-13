@@ -38,7 +38,7 @@ export default {
       ]
     }
   },
-  mounted() {
+  activated() {
     this.$axios.post('/CardManagement.svc/CardRecord', {
       VisitorID: window.sessionStorage.getItem('VisitorID') // 'V201905140001'
     })

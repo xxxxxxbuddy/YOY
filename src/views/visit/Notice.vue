@@ -73,7 +73,7 @@ export default {
       noticeList: []
     }
   },
-  mounted() {
+  activated() {
     this.getMyNotice();
   },
   methods: {

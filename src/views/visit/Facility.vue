@@ -52,7 +52,7 @@ export default {
       projectByWaitTime: []
     }
   },
-  mounted() {
+  activated() {
     this.$axios.post('/Recommendation.svc/ProjectRecom', {
       RecomType: 1,
       VisitorID: window.sessionStorage.getItem('VisitorID')

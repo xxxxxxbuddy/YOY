@@ -57,7 +57,7 @@ export default {
       sortedList: {}
     }
   },
-  mounted() {
+  activated() {
     this.$axios.get(`/Amusement.svc/Order/AvailCommodity/${window.sessionStorage.getItem('VisitorID')}`)
       .then(res => {
         if(res.data.code === 1) {

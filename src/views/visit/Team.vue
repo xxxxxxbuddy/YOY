@@ -103,7 +103,7 @@ export default {
       GroupID: ''
     }
   },
-  mounted() {
+  activated() {
     this.$axios.get('/Amusement.svc/Group/GetApplication/' + this.VisitorID).then(res => {
       if(res.data.code === 1 && !!res.data.result.length) {
         this.inviteList = res.data.result;

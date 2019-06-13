@@ -92,7 +92,7 @@ export default {
       return this.$refs.mySwiper.swiper;
     }
   },
-  mounted() {
+  activated() {
     this.swiperOption.height =
       document.getElementById("container").offsetWidth * 0.75;
     this.funcHeight =

@@ -34,7 +34,7 @@ export default {
       foodNum: this.$route.params.foodNum || {}
     }
   },
-  mounted() {
+  activated() {
     
   },
   computed: {

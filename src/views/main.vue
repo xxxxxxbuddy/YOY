@@ -38,7 +38,7 @@ export default {
       display2: 'none'
     }
   },
-  mounted() {
+  activated() {
   },
   methods: {
     buyTicket() {

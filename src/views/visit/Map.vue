@@ -91,7 +91,7 @@ export default {
       GroupPos: []
     }
   },
-  mounted() {
+  activated() {
     let container = document.getElementsByClassName('map')[0];
     if(this.$route.params.GroupID !== '') {
       this.getLocation(this.$route.params.GroupID, 'group');
